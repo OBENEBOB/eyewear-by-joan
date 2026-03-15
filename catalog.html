@@ -1,0 +1,2439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Digital Catalog | EyewearByJoan – Cameroon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- ROOT VARIABLES – BRAND COLORS ---------- */
+        :root {
+            --pink-soft: #FFCDD2;
+            --pink-dark: #F8BBD0;
+            --black: #000000;
+            --white: #FFFFFF;
+            --gray-light: #F5F5F5;
+            --gray: #9E9E9E;
+            --gray-dark: #616161;
+            --success: #4CAF50;
+            --transition: all 0.3s ease;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--black);
+            background-color: var(--white);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--pink-soft);
+            color: var(--black);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--pink-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--black);
+            border: 2px solid var(--pink-soft);
+            padding: 12px 28px;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--pink-soft);
+            color: var(--black);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--black);
+            border: 2px solid var(--black);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--black);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        /* ---------- HEADER – FIXED LAYOUT ---------- */
+        header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            flex-wrap: nowrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--black);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+
+        .logo span {
+            color: var(--pink-soft);
+        }
+
+        /* Desktop navigation */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            margin: 0 15px;
+            flex: 0 1 auto;
+            justify-content: center;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 0;
+        }
+
+        .nav-menu a:hover {
+            color: var(--pink-soft);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--pink-soft);
+            left: 0;
+            bottom: -5px;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown – desktop */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--white);
+            min-width: 240px;
+            box-shadow: var(--shadow-hover);
+            border-radius: var(--border-radius);
+            padding: 15px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .dropdown li {
+            list-style: none;
+            width: 100%;
+        }
+
+        .dropdown a {
+            padding: 10px 25px;
+            display: block;
+            color: var(--black);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .dropdown a:hover {
+            background-color: var(--pink-soft);
+            color: var(--black);
+            padding-left: 30px;
+        }
+
+        .dropdown-title {
+            padding: 10px 25px;
+            font-weight: 600;
+            color: var(--black);
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        /* Desktop Actions */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        .desktop-actions {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .mobile-actions {
+            display: none;
+        }
+
+        .mobile-left-actions {
+            display: none;
+        }
+
+        /* Search */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 200px;
+            flex-shrink: 0;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 11px 40px 11px 15px;
+            border: 2px solid var(--gray-light);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            background-color: var(--white);
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--pink-soft);
+            box-shadow: 0 0 0 3px rgba(255, 205, 210, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            color: var(--gray-dark);
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        .mobile-search-container {
+            display: none;
+            padding: 15px 0;
+            background-color: var(--white);
+            border-top: 1px solid var(--gray-light);
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-search-container.active {
+            display: block;
+        }
+
+        .mobile-search-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .mobile-search-input {
+            flex: 1;
+            padding: 12px 18px;
+            border: 2px solid var(--gray-light);
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .mobile-search-input:focus {
+            outline: none;
+            border-color: var(--pink-soft);
+            box-shadow: 0 0 0 3px rgba(255, 205, 210, 0.2);
+        }
+
+        .mobile-search-submit {
+            width: 48px;
+            height: 48px;
+            background-color: var(--pink-soft);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .icon-link {
+            position: relative;
+            color: var(--black);
+            font-size: 1.25rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .icon-link:hover {
+            color: var(--pink-soft);
+            transform: translateY(-2px);
+        }
+
+        .user-account {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 12px;
+            border: 2px solid var(--gray-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--black);
+            flex-shrink: 0;
+            width: 140px;
+            max-width: 140px;
+            overflow: hidden;
+        }
+
+        .user-account:hover {
+            border-color: var(--pink-soft);
+            background-color: rgba(255, 205, 210, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .account-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            min-width: 0;
+        }
+
+        .user-account i:first-child {
+            flex-shrink: 0;
+        }
+
+        .user-account .fa-chevron-down {
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--pink-soft);
+            color: var(--black);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .wishlist-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--pink-soft);
+            color: var(--black);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .mobile-toggle {
+            display: none;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Search Overlay Styles */
+        .search-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 120px;
+        }
+
+        .search-overlay.active {
+            display: flex;
+        }
+
+        .search-overlay-content {
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-overlay input {
+            width: 100%;
+            padding: 20px 60px 20px 30px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+            outline: 2px solid var(--pink-soft);
+        }
+
+        .search-overlay input:focus {
+            outline: 4px solid var(--pink-soft);
+        }
+
+        .search-overlay button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--pink-soft);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: var(--black);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-overlay button:hover {
+            background: var(--pink-dark);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .close-search {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .close-search:hover {
+            background: var(--pink-soft);
+            color: var(--black);
+            transform: rotate(90deg);
+        }
+
+        .search-results {
+            margin-top: 20px;
+            background: white;
+            border-radius: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gray-light);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--black);
+        }
+
+        .search-result-item:hover {
+            background-color: var(--pink-soft);
+        }
+
+        .search-result-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .result-info {
+            flex: 1;
+        }
+
+        .result-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 3px;
+        }
+
+        .result-category {
+            font-size: 0.8rem;
+            color: var(--gray-dark);
+        }
+
+        .result-price {
+            font-weight: 600;
+            color: var(--success);
+            font-size: 0.95rem;
+        }
+
+        .no-results {
+            padding: 30px;
+            text-align: center;
+            color: var(--gray-dark);
+            font-size: 1rem;
+        }
+
+        /* User Menu Styles */
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: white;
+            min-width: 220px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-hover);
+            border: 1px solid var(--gray-light);
+            padding: 12px 0;
+            z-index: 9999;
+            display: none;
+        }
+
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: var(--black);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .user-dropdown a:hover {
+            background-color: var(--pink-soft);
+        }
+
+        .user-dropdown hr {
+            margin: 8px 0;
+            border: none;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .user-dropdown i {
+            width: 20px;
+            color: var(--pink-soft);
+        }
+
+        .mobile-user-menu {
+            position: relative;
+        }
+
+        .mobile-user-name {
+            display: none;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            color: var(--black);
+        }
+
+        .mobile-dropdown {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: white;
+            width: 200px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid #f0f0f0;
+            padding: 10px 0;
+            z-index: 9999;
+            display: none;
+        }
+
+        .mobile-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: #000;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .mobile-dropdown a:hover {
+            background-color: #FFCDD2;
+        }
+
+        .mobile-dropdown i {
+            width: 20px;
+            color: var(--pink-soft);
+        }
+
+        .mobile-dropdown hr {
+            margin: 8px 0;
+            border: none;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        /* Mega Menu Dropdown - Desktop (side by side) */
+        .dropdown.mega-dropdown {
+            min-width: 450px;
+            padding: 20px 0;
+        }
+
+        .mega-menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .mega-menu-column {
+            padding: 0 5px;
+        }
+
+        .mega-menu-column .dropdown-title {
+            padding: 8px 20px;
+            margin-bottom: 5px;
+            background-color: rgba(255, 205, 210, 0.1);
+            font-weight: 700;
+            border-bottom: 2px solid var(--pink-soft);
+        }
+
+        /* ---------- BREADCRUMB ---------- */
+        .breadcrumb {
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: var(--gray-dark);
+        }
+        .breadcrumb a {
+            text-decoration: none;
+            color: var(--pink-soft);
+            font-weight: 500;
+        }
+        .breadcrumb span {
+            color: var(--black);
+            font-weight: 500;
+        }
+
+        /* ---------- MAIN LAYOUT ---------- */
+        .main-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+            margin-top: 30px;
+        }
+
+        /* ---------- CATALOG HERO BANNER - LIKE ACCESSORIES PAGE ---------- */
+        .catalog-hero {
+            margin: 0 0 30px;
+            background: linear-gradient(135deg, #FFCDD2 0%, #F8BBD0 100%);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .catalog-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?q=80&w=1974&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        .catalog-hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 15px 50px;
+            color: var(--black);
+            max-width: 700px;
+        }
+
+        .catalog-hero-content h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .catalog-hero-content p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        /* ---------- CATALOG ACTIONS ---------- */
+        .catalog-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .catalog-actions .btn i {
+            margin-right: 8px;
+        }
+
+        /* Share Dropdown Styles */
+        .share-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .share-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-hover);
+            border: 1px solid var(--gray-light);
+            padding: 10px 0;
+            z-index: 100;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .share-menu.show {
+            display: block;
+        }
+
+        .share-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: var(--black);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .share-menu a:hover {
+            background-color: var(--pink-soft);
+        }
+
+        .share-menu i {
+            width: 20px;
+            font-size: 1.1rem;
+        }
+
+        .share-menu .fa-whatsapp { color: #25D366; }
+        .share-menu .fa-facebook-f { color: #1877f2; }
+        .share-menu .fa-twitter { color: #1da1f2; }
+        .share-menu .fa-telegram { color: #0088cc; }
+        .share-menu .fa-envelope { color: #EA4335; }
+        .share-menu .fa-link { color: var(--gray-dark); }
+
+        /* ---------- PDF CONTAINER ---------- */
+        .pdf-container {
+            background: var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin: 25px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 70vh;
+            min-height: 500px;
+            border: 0.2rem solid var(--pink-soft);
+            border-radius: calc(var(--border-radius) - 4px);
+            background: white;
+        }
+
+        .fallback-message {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: var(--border-radius);
+        }
+
+        .fallback-message i {
+            font-size: 4rem;
+            color: var(--pink-soft);
+            margin-bottom: 20px;
+        }
+
+        .fallback-message h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .fallback-message p {
+            color: var(--gray-dark);
+            margin-bottom: 25px;
+        }
+
+        /* ---------- QR CODE FEATURE SECTION ---------- */
+        .qr-feature {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--pink-soft);
+            text-align: center;
+        }
+
+        .qr-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--pink-soft);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            color: var(--black);
+        }
+
+        .qr-feature h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .qr-feature p {
+            font-size: 1.1rem;
+            color: var(--gray-dark);
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+
+        .qr-steps {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .qr-step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .qr-step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--pink-soft);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .qr-step h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .qr-step p {
+            font-size: 0.95rem;
+            color: var(--gray-dark);
+        }
+
+        /* ---------- BENEFITS SECTION - 3 POINTS ---------- */
+        .benefits-section {
+            margin: 40px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--black);
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: var(--gray-dark);
+            font-size: 1.1rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .benefit-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--gray-light);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--pink-soft);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--pink-soft);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--black);
+        }
+
+        .benefit-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .benefit-card p {
+            color: var(--gray-dark);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* ---------- NEWSLETTER ---------- */
+        .newsletter-section {
+            background-color: var(--gray-light);
+            text-align: center;
+            padding: 60px 0;
+            margin-top: 30px;
+        }
+
+        .newsletter-box {
+            max-width: 550px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .discount-badge {
+            display: inline-block;
+            background-color: var(--pink-soft);
+            color: var(--black);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+        }
+
+        .newsletter-box h2 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: var(--black);
+        }
+
+        .newsletter-subhead {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--pink-soft);
+            margin-bottom: 12px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+
+        .newsletter-description {
+            margin-bottom: 25px;
+            color: var(--gray-dark);
+            font-size: 0.95rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 14px 22px;
+            border: 2px solid #f0f0f0;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: #fafafa;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--pink-soft);
+            background-color: var(--white);
+            box-shadow: 0 0 0 4px rgba(255,205,210,0.2);
+        }
+
+        .newsletter-form .btn {
+            padding: 14px 28px;
+            border-radius: 50px;
+        }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 70px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--white);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background-color: var(--pink-soft);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--pink-soft);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-icons a:hover {
+            background-color: var(--pink-soft);
+            color: var(--black);
+            transform: translateY(-5px);
+        }
+
+        .whatsapp-contact {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--white);
+        }
+
+        .whatsapp-contact:hover {
+            background-color: #25D366;
+        }
+
+        .whatsapp-contact i {
+            font-size: 2rem;
+            color: #25D366;
+        }
+
+        .whatsapp-contact:hover i {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .footer-bottom a {
+            color: var(--gray);
+            text-decoration: none;
+        }
+        .footer-bottom a:hover {
+            color: var(--pink-soft);
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25D366;
+            color: var(--white);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(37,211,102,0.3);
+            z-index: 100;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+        }
+
+        /* Modal (login) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 35px;
+            width: 90%;
+            max-width: 380px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+        .close-modal:hover {
+            color: var(--black);
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-form input {
+            padding: 12px;
+            border: 2px solid var(--gray-light);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .modal-form input:focus {
+            outline: none;
+            border-color: var(--pink-soft);
+        }
+
+        .modal-toggle {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--gray-dark);
+        }
+        .modal-toggle a {
+            color: var(--pink-dark);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 12px 22px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-hover);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid var(--success);
+        }
+
+        .notification.success {
+            border-left-color: var(--success);
+        }
+
+        .notification.error {
+            border-left-color: #f44336;
+        }
+
+        .notification.info {
+            border-left-color: #2196F3;
+        }
+
+        .notification.warning {
+            border-left-color: #ff9800;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* Desktop specific adjustments */
+        @media (min-width: 1025px) {
+            .search-container {
+                width: 220px;
+            }
+            
+            .user-account {
+                width: 150px;
+                max-width: 150px;
+            }
+        }
+
+        /* For smaller desktop screens */
+        @media (max-width: 1200px) and (min-width: 1025px) {
+            .nav-menu {
+                gap: 15px;
+            }
+            
+            .nav-menu a {
+                font-size: 0.85rem;
+            }
+            
+            .search-container {
+                width: 160px;
+            }
+            
+            .user-account {
+                width: 130px;
+                padding: 9px 8px;
+            }
+        }
+
+        /* ========== MOBILE RESPONSIVE ========== */
+        @media (max-width: 1024px) {
+            .desktop-actions {
+                display: none !important;
+            }
+
+            .mobile-actions,
+            .mobile-left-actions,
+            .mobile-toggle {
+                display: flex !important;
+            }
+
+            .header-container {
+                display: grid;
+                grid-template-columns: auto 1fr auto;
+                align-items: center;
+                gap: 8px;
+                padding: 12px 0;
+            }
+
+            .logo {
+                grid-column: 2;
+                justify-self: center;
+                margin: 0;
+                font-size: 1.4rem;
+            }
+
+            .mobile-left-actions {
+                grid-column: 1;
+                justify-self: start;
+                gap: 16px;
+            }
+
+            .mobile-actions {
+                grid-column: 3;
+                justify-self: end;
+                gap: 18px;
+                align-items: center;
+            }
+
+            .account-text {
+                display: none !important;
+            }
+            
+            .user-account {
+                max-width: 40px;
+                padding: 9px 10px;
+                justify-content: center;
+            }
+            
+            .user-account i {
+                margin: 0;
+            }
+            
+            .user-account .fa-chevron-down {
+                display: none !important;
+            }
+            
+            .mobile-user-name {
+                display: none !important;
+            }
+            
+            .mobile-user-menu .user-icon {
+                font-size: 1.25rem;
+                color: var(--black);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .mobile-dropdown {
+                position: absolute;
+                top: 40px;
+                right: 0;
+                background: white;
+                width: 200px;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                border: 1px solid #f0f0f0;
+                padding: 10px 0;
+                z-index: 9999;
+                display: none;
+            }
+            
+            .mobile-dropdown.show,
+            .mobile-dropdown.active {
+                display: block !important;
+            }
+
+            .nav-menu {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                max-height: calc(100vh - 70px);
+                background-color: var(--white);
+                flex-direction: column;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                box-shadow: var(--shadow-hover);
+                z-index: 999;
+                padding: 0;
+                margin: 0;
+            }
+
+            .nav-menu.active {
+                display: flex !important;
+            }
+
+            .nav-menu > li {
+                width: 100%;
+                margin: 0;
+                border-bottom: 1px solid var(--gray-light);
+                list-style: none;
+            }
+
+            .nav-menu > li > a {
+                width: 100%;
+                padding: 16px 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 1rem;
+                font-weight: 500;
+                color: var(--black);
+                background-color: var(--white);
+                text-decoration: none;
+            }
+
+            .dropdown {
+                position: relative !important;
+                width: 100% !important;
+                background-color: #f9f9f9;
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+                border-radius: 0;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                display: none;
+                border-top: 1px solid rgba(0,0,0,0.05);
+            }
+
+            .dropdown.active {
+                display: block !important;
+            }
+
+            .dropdown li a {
+                padding: 14px 20px 14px 48px !important;
+            }
+
+            .dropdown-title {
+                padding: 12px 20px 8px 48px !important;
+            }
+
+            .dropdown.mega-dropdown {
+                min-width: 100% !important;
+                padding: 0 !important;
+            }
+
+            .mega-menu-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 10px;
+                width: 100% !important;
+                padding: 10px;
+            }
+
+            .mega-menu-column {
+                width: 100% !important;
+                padding: 0 !important;
+            }
+
+            .mega-menu-column .dropdown-title {
+                padding: 10px 10px 5px 10px !important;
+                background-color: rgba(255, 205, 210, 0.1);
+                font-weight: 700;
+                border-bottom: 2px solid var(--pink-soft);
+                font-size: 0.9rem;
+                color: var(--gray-dark);
+                margin-bottom: 5px;
+            }
+
+            .mega-menu-column li a {
+                padding: 8px 10px !important;
+                font-size: 0.9rem;
+                white-space: normal;
+            }
+
+            .qr-steps,
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pdf-viewer {
+                height: 50vh;
+                min-height: 400px;
+            }
+
+            .catalog-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .catalog-actions .btn {
+                width: 100%;
+            }
+
+            .share-menu {
+                left: 0;
+                right: 0;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .catalog-hero-content {
+                padding: 40px 30px;
+            }
+
+            .catalog-hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .nav-menu > li > a {
+                padding: 14px 16px !important;
+            }
+            
+            .dropdown li a {
+                padding: 12px 16px 12px 40px !important;
+            }
+            
+            .dropdown-title {
+                padding: 10px 16px 6px 40px !important;
+            }
+
+            .qr-steps,
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .qr-feature {
+                padding: 30px 20px;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo { font-size: 1.4rem; }
+            .mobile-actions { gap: 16px; }
+            
+            .catalog-hero-content {
+                padding: 30px 20px;
+            }
+
+            .catalog-hero-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .catalog-hero-content p {
+                font-size: 1rem;
+            }
+
+            .pdf-viewer {
+                height: 400px;
+                min-height: 350px;
+            }
+
+            .qr-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+
+            .qr-feature h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/237654373909" class="whatsapp-float" target="_blank" aria-label="Order on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="close-search" id="closeSearch"><i class="fas fa-times"></i></div>
+        <div class="search-overlay-content">
+            <input type="text" id="searchInput" placeholder="Search for glasses, accessories...">
+            <button id="searchButton"><i class="fas fa-search"></i></button>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+
+    <!-- HEADER - MAINTAINING fa-qrcode ICON (NO PINK HIGHLIGHT) -->
+    <header>
+        <div class="container">
+            <div class="header-container">
+                <!-- Mobile left: hamburger + search -->
+                <div class="mobile-left-actions">
+                    <div class="mobile-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <a href="#" class="icon-link mobile-search-icon" id="mobileSearchIcon" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </a>
+                </div>
+
+                <!-- Logo -->
+                <a href="index.html" class="logo">EyewearBy<span>Joan</span></a>
+
+                <!-- Desktop Navigation - with mega dropdown - MAINTAINING fa-qrcode - NO PINK HIGHLIGHT -->
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="has-dropdown">
+                        <a href="#">Shop <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown mega-dropdown">
+                            <div class="mega-menu-grid">
+                                <div class="mega-menu-column">
+                                    <div class="dropdown-title">Filter by Type</div>
+                                    <li><a href="shop-all.html">All Glasses</a></li>
+                                    <li><a href="shop-women.html">Women Glasses</a></li>
+                                    <li><a href="shop-men.html">Men Glasses</a></li>
+                                    <li><a href="shop-accessories.html">Accessories</a></li>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <div class="dropdown-title">Lens Technology</div>
+                                    <li><a href="shop-anti-blue-light.html">Anti-Blue Light</a></li>
+                                    <li><a href="shop-photochromic.html">Photochromic</a></li>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+                    <li><a href="catalog.html"><i class="fas fa-qrcode"></i> Catalog</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+
+                <!-- Desktop Actions -->
+                <div class="header-actions desktop-actions">
+                    <div class="search-container">
+                        <input type="text" class="search-box" id="desktopSearchInput" placeholder="Search eyewear..." readonly>
+                        <div class="search-icon" id="desktopSearchIcon"><i class="fas fa-search"></i></div>
+                    </div>
+                    <a href="wishlist.html" class="icon-link heart-link" aria-label="Wishlist"><i class="far fa-heart"></i><span class="wishlist-count">0</span></a>
+                    <a href="cart.html" class="icon-link" aria-label="Cart"><i class="fas fa-shopping-bag"></i><span class="cart-count">0</span></a>
+                    
+                    <!-- User Menu -->
+                    <div class="user-menu">
+                        <a href="login.html" class="user-account" id="userAccountLink">
+                            <i class="fas fa-user"></i>
+                            <span class="account-text" id="userNameDisplay">Account</span>
+                            <i class="fas fa-chevron-down" style="font-size:0.8rem; margin-left:3px;" id="dropdownArrow"></i>
+                        </a>
+                        
+                        <div class="user-dropdown" id="userDropdown" style="display: none;">
+                            <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="profile.html?section=orders"><i class="fas fa-box"></i> My Orders</a>
+                            <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a>
+                            <a href="admin-dashboard.html" id="adminDashboardLink" style="display: none;"><i class="fas fa-cog"></i> Admin Dashboard</a>
+                            <hr>
+                            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Right Icons -->
+                <div class="mobile-actions">
+                    <a href="wishlist.html" class="icon-link heart-link" aria-label="Wishlist"><i class="far fa-heart"></i><span class="wishlist-count">0</span></a>
+                    <a href="cart.html" class="icon-link" aria-label="Cart"><i class="fas fa-shopping-bag"></i><span class="cart-count">0</span></a>
+                    
+                    <div class="mobile-user-menu">
+                        <a href="#" class="icon-link user-icon" id="mobileUserLink" aria-label="Account">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        
+                        <div class="mobile-dropdown" id="mobileDropdown">
+                            <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="profile.html?section=orders"><i class="fas fa-box"></i> My Orders</a>
+                            <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a>
+                            <a href="admin-dashboard.html" id="mobileAdminDashboardLink" style="display: none;"><i class="fas fa-cog"></i> Admin</a>
+                            <hr>
+                            <a href="#" id="mobileLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile search slide-down -->
+        <div class="mobile-search-container" id="mobileSearchContainer">
+            <div class="container">
+                <div class="mobile-search-wrapper">
+                    <input type="text" class="mobile-search-input" placeholder="Search eyewear...">
+                    <button class="mobile-search-submit"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / <span>Digital Catalog</span>
+        </div>
+
+        <!-- CATALOG HERO BANNER - LIKE ACCESSORIES PAGE -->
+        <div class="catalog-hero">
+            <div class="catalog-hero-content">
+                <h1>Digital Catalog</h1>
+                <p>Browse our complete collection of premium eyewear. Flip through pages, zoom in on details, and find your perfect pair - all without downloading.</p>
+            </div>
+        </div>
+
+        <!-- CATALOG ACTIONS - SHARE BUTTON ONLY -->
+        <div class="catalog-actions">
+            <!-- Share Dropdown -->
+            <div class="share-dropdown">
+                <button class="btn btn-primary" id="shareBtn"><i class="fas fa-share-alt"></i> Share Catalog</button>
+                <div class="share-menu" id="shareMenu">
+                    <a href="#" onclick="shareOn('whatsapp'); return false;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="#" onclick="shareOn('facebook'); return false;"><i class="fab fa-facebook-f"></i> Facebook</a>
+                    <a href="#" onclick="shareOn('twitter'); return false;"><i class="fab fa-twitter"></i> Twitter</a>
+                    <a href="#" onclick="shareOn('telegram'); return false;"><i class="fab fa-telegram"></i> Telegram</a>
+                    <a href="#" onclick="shareOn('email'); return false;"><i class="fas fa-envelope"></i> Email</a>
+                    <a href="#" onclick="shareOn('copy'); return false;"><i class="fas fa-link"></i> Copy Link</a>
+                </div>
+            </div>
+            <a href="https://wa.me/237654373909?text=Hello%20EyewearByJoan,%20I'm%20interested%20in%20your%20catalog" class="btn btn-outline" target="_blank"><i class="fab fa-whatsapp"></i> Order via WhatsApp</a>
+        </div>
+
+        <!-- PDF EMBED - VIEW WITHOUT DOWNLOADING -->
+        <div class="pdf-container">
+            <!-- Using HTML5 embed for direct viewing - works in all modern browsers -->
+            <embed src="Eyewear by Joan Catalog website.pdf" type="application/pdf" class="pdf-viewer" />
+            
+            <!-- Fallback message if PDF cannot be displayed -->
+            <div class="fallback-message" id="fallbackMessage" style="display: none;">
+                <i class="fas fa-file-pdf"></i>
+                <h3>Unable to display PDF</h3>
+                <p>Your browser may not support PDF viewing. Click below to download.</p>
+                <a href="catalog.pdf" class="btn btn-primary" download><i class="fas fa-download"></i> Download Catalog</a>
+            </div>
+        </div>
+
+        <!-- QR CODE FEATURE SECTION -->
+        <div class="qr-feature">
+            <div class="qr-icon">
+                <i class="fas fa-qrcode"></i>
+            </div>
+            <h2>Scan & Shop Instantly</h2>
+            <p>Every product in our catalog has a unique QR code. Simply scan the QR code next to any product with your phone's camera, and you'll be taken directly to that product's page to view details, check availability, and order.</p>
+            
+            <div class="qr-steps">
+                <div class="qr-step">
+                    <div class="qr-step-number">1</div>
+                    <h3>Find a Product</h3>
+                    <p>Browse the catalog and find a style you like. Look for the QR code next to each product.</p>
+                </div>
+                <div class="qr-step">
+                    <div class="qr-step-number">2</div>
+                    <h3>Scan the Code</h3>
+                    <p>Open your phone's camera app and point it at the QR code. No need for a special app - most phone cameras scan QR codes automatically.</p>
+                </div>
+                <div class="qr-step">
+                    <div class="qr-step-number">3</div>
+                    <h3>View & Order</h3>
+                    <p>A link will appear on your screen. Tap it to go directly to the product page where you can see details, colors, and order via WhatsApp.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- BENEFITS SECTION - 3 POINTS -->
+        <div class="benefits-section">
+            <div class="section-title">
+                <h2>Why Use Our Digital Catalog?</h2>
+                <p>Experience the convenience of browsing anywhere, anytime</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>24/7 Access</h3>
+                    <p>Browse our catalog anytime, day or night. No need to wait for store hours or schedule appointments.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3>Instant Product Access</h3>
+                    <p>Scan QR codes to go directly to product pages. No manual searching - just scan and shop.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3>Easy Sharing</h3>
+                    <p>Share your favorite styles with friends and family using our share buttons – get a second opinion instantly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+      <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EyewearByJoan</h3>
+                    <p style="color:var(--gray); margin-bottom:20px;">Premium eyewear combining cutting-edge technology with elegant design for modern lifestyles. Proudly Cameroon-owned since 2020.</p>
+                    <div class="social-icons">
+                        <a href="https://instagram.com/eyewearbyjoan" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://tiktok.com/@eyewearbyjoan" target="_blank"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://wa.me/237654373909" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="shop-anti-blue-light.html">Blue Light Glasses</a></li>
+                        <li><a href="shop-photochromic.html">Photochromic Glasses</a></li>
+                        <li><a href="shop-men.html">Men's Collection</a></li>
+                        <li><a href="shop-women.html">Women's Collection</a></li>
+                        <li><a href="shop-accessories.html">Accessories</a></li>
+                        <li><a href="shop-all.html">Shop All Glasses</a></li>
+                        <li><a href="catalog.html">Digital Catalog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Get in Touch</h3>
+                    <a href="https://wa.me/237654373909" target="_blank" class="whatsapp-contact">
+                        <i class="fab fa-whatsapp"></i>
+                        <div><h4>Order via WhatsApp</h4><p>+237 654 373 909</p></div>
+                    </a>
+                    <p style="margin-top:20px; color:var(--gray);">📍 Douala, Bonabéri - Cameroon</p>
+                    <p style="color:var(--gray);">📧 hello@eyewearbyjoan.cm</p>
+                    <p style="color:var(--gray);">🕐 Mon-Fri: 9am - 6pm</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EyewearByJoan Cameroon. All rights reserved. | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="products.js"></script>
+    
+    <!-- Main Script -->
+    <script>
+        // ============================================
+        // SEARCH FUNCTIONALITY
+        // ============================================
+        const desktopSearchIcon = document.getElementById('desktopSearchIcon');
+        const desktopSearchInput = document.getElementById('desktopSearchInput');
+        const mobileSearchIcon = document.getElementById('mobileSearchIcon');
+        const searchOverlay = document.getElementById('searchOverlay');
+        const closeSearch = document.getElementById('closeSearch');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const searchResults = document.getElementById('searchResults');
+
+        let allProducts = [];
+
+        function loadProducts() {
+            if (window.products && window.products.length > 0) {
+                allProducts = window.products;
+                console.log('Products loaded:', allProducts.length);
+            } else {
+                console.log('Using fallback products');
+                allProducts = [
+                    { id: 'lumera-jc039', name: 'LUMERA', category: 'Photochromic', price: 9800, image: 'https://images.unsplash.com/photo-1556306535-38febf6783e7?q=80&w=500&auto=format&fit=crop' },
+                    { id: 'kira-jc036', name: 'KIRA', category: 'Photochromic', price: 12500, image: 'https://images.unsplash.com/photo-1556306535-38febf6783e7?q=80&w=500&auto=format&fit=crop' },
+                    { id: 'mimi-jc033', name: 'MIMI', category: 'Photochromic', price: 10000, image: 'https://images.unsplash.com/photo-1556306535-38febf6783e7?q=80&w=500&auto=format&fit=crop' },
+                    { id: 'yuyu-jc038', name: 'YUYU', category: 'Photochromic', price: 8500, image: 'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?q=80&w=500&auto=format&fit=crop' }
+                ];
+            }
+        }
+
+        loadProducts();
+
+        function openSearch() {
+            searchOverlay.classList.add('active');
+            setTimeout(() => searchInput.focus(), 300);
+            searchResults.classList.remove('active');
+            searchResults.innerHTML = '';
+            searchInput.value = '';
+        }
+
+        function closeSearchOverlay() {
+            searchOverlay.classList.remove('active');
+            searchInput.value = '';
+            searchResults.classList.remove('active');
+        }
+
+        function performSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            
+            if (query.length < 2) {
+                searchResults.classList.remove('active');
+                return;
+            }
+            
+            const results = allProducts.filter(product => 
+                product.name.toLowerCase().includes(query) || 
+                (product.category && product.category.toLowerCase().includes(query))
+            );
+            
+            if (results.length > 0) {
+                let resultsHTML = '';
+                results.forEach(product => {
+                    resultsHTML += `
+                        <a href="product-details.html?id=${product.id}" class="search-result-item" onclick="closeSearchOverlay()">
+                            <img src="${product.image}" alt="${product.name}">
+                            <div class="result-info">
+                                <div class="result-name">${product.name}</div>
+                                <div class="result-category">${product.category || 'Glasses'}</div>
+                                <div class="result-price">${product.price.toLocaleString()} FCFA</div>
+                            </div>
+                        </a>
+                    `;
+                });
+                searchResults.innerHTML = resultsHTML;
+                searchResults.classList.add('active');
+            } else {
+                searchResults.innerHTML = '<div class="no-results">No products found matching "' + query + '"</div>';
+                searchResults.classList.add('active');
+            }
+        }
+
+        if (desktopSearchIcon) {
+            desktopSearchIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                openSearch();
+            });
+        }
+
+        if (desktopSearchInput) {
+            desktopSearchInput.addEventListener('click', function(e) {
+                e.preventDefault();
+                openSearch();
+            });
+        }
+
+        if (mobileSearchIcon) {
+            mobileSearchIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                openSearch();
+            });
+        }
+
+        if (closeSearch) {
+            closeSearch.addEventListener('click', closeSearchOverlay);
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', performSearch);
+        }
+
+        if (searchButton) {
+            searchButton.addEventListener('click', performSearch);
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    performSearch();
+                }
+            });
+        }
+
+        if (searchOverlay) {
+            searchOverlay.addEventListener('click', function(e) {
+                if (e.target === searchOverlay) {
+                    closeSearchOverlay();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+                closeSearchOverlay();
+            }
+        });
+
+        window.closeSearchOverlay = closeSearchOverlay;
+
+        // ============================================
+        // MOBILE MENU TOGGLE
+        // ============================================
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (mobileToggle && navMenu) {
+            mobileToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navMenu.classList.toggle('active');
+                document.getElementById('mobileSearchContainer')?.classList.remove('active');
+            });
+        }
+
+        // ============================================
+        // DROPDOWNS
+        // ============================================
+        const dropdowns = document.querySelectorAll('.has-dropdown');
+        dropdowns.forEach(dropdown => {
+            const link = dropdown.querySelector('a');
+            const menu = dropdown.querySelector('.dropdown');
+            if (link && menu) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const chevron = this.querySelector('i.fa-chevron-down');
+                    
+                    if (window.innerWidth > 1024) {
+                        document.querySelectorAll('.dropdown.active').forEach(active => {
+                            if (active !== menu) {
+                                active.classList.remove('active');
+                                const otherLink = active.closest('.has-dropdown')?.querySelector('a');
+                                if (otherLink) {
+                                    const otherChev = otherLink.querySelector('i.fa-chevron-down');
+                                    if (otherChev) otherChev.style.transform = 'rotate(0deg)';
+                                }
+                            }
+                        });
+                    }
+                    
+                    menu.classList.toggle('active');
+                    if (chevron) {
+                        chevron.style.transform = menu.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+                    }
+                });
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth > 1024 && !e.target.closest('.has-dropdown')) {
+                document.querySelectorAll('.dropdown.active').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                    const parent = dropdown.closest('.has-dropdown');
+                    if (parent) {
+                        const link = parent.querySelector('a');
+                        const chevron = link?.querySelector('i.fa-chevron-down');
+                        if (chevron) chevron.style.transform = 'rotate(0deg)';
+                    }
+                });
+            }
+        });
+
+        // ============================================
+        // MOBILE SEARCH
+        // ============================================
+        const searchIcon = document.getElementById('mobileSearchIcon');
+        const searchContainer = document.getElementById('mobileSearchContainer');
+        if (searchIcon && searchContainer) {
+            searchIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                searchContainer.classList.toggle('active');
+                navMenu?.classList.remove('active');
+                if (searchContainer.classList.contains('active')) {
+                    setTimeout(() => document.querySelector('.mobile-search-input')?.focus(), 300);
+                }
+            });
+        }
+
+        // ============================================
+        // WISHLIST
+        // ============================================
+        let wishlist = JSON.parse(localStorage.getItem('ebj_wishlist')) || [];
+
+        function updateWishlistCount() {
+            const count = wishlist.length;
+            document.querySelectorAll('.wishlist-count').forEach(el => {
+                el.textContent = count;
+            });
+        }
+
+        updateWishlistCount();
+
+        // ============================================
+        // CART COUNT
+        // ============================================
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('ebj_cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            document.querySelectorAll('.cart-count').forEach(el => {
+                el.textContent = totalItems;
+            });
+        }
+        updateCartCount();
+
+        // ============================================
+        // CATALOG FUNCTIONALITY
+        // ============================================
+        
+        // Share dropdown toggle
+        const shareBtn = document.getElementById('shareBtn');
+        const shareMenu = document.getElementById('shareMenu');
+        
+        if (shareBtn && shareMenu) {
+            shareBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                shareMenu.classList.toggle('show');
+            });
+        }
+
+        // Close share menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (shareMenu && !shareBtn.contains(e.target) && !shareMenu.contains(e.target)) {
+                shareMenu.classList.remove('show');
+            }
+        });
+
+        // Share functions
+        window.shareOn = function(platform) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent('Check out the EyewearByJoan digital catalog!');
+            
+            let shareUrl = '';
+            
+            switch(platform) {
+                case 'whatsapp':
+                    shareUrl = `https://wa.me/?text=${text}%20${url}`;
+                    break;
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+                    break;
+                case 'telegram':
+                    shareUrl = `https://t.me/share/url?url=${url}&text=${text}`;
+                    break;
+                case 'email':
+                    shareUrl = `mailto:?subject=EyewearByJoan%20Catalog&body=${text}%20${url}`;
+                    break;
+                case 'copy':
+                    navigator.clipboard.writeText(window.location.href).then(function() {
+                        showNotification('Link copied to clipboard!', 'success');
+                    });
+                    shareMenu.classList.remove('show');
+                    return;
+            }
+            
+            if (shareUrl) {
+                window.open(shareUrl, '_blank');
+            }
+            
+            shareMenu.classList.remove('show');
+        };
+
+        // Check if PDF loads, show fallback if it fails
+        const pdfViewer = document.querySelector('.pdf-viewer');
+        if (pdfViewer) {
+            setTimeout(function() {
+                const fallback = document.getElementById('fallbackMessage');
+                // Simple check - if embed didn't load properly
+                if (fallback && pdfViewer.offsetHeight < 100) {
+                    pdfViewer.style.display = 'none';
+                    fallback.style.display = 'block';
+                }
+            }, 3000);
+        }
+
+        // Newsletter subscription
+        const subscribeBtn = document.getElementById('subscribeBtn');
+        const emailInput = document.getElementById('newsletterEmail');
+        const msg = document.getElementById('subscribeMessage');
+
+        if (subscribeBtn) {
+            subscribeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const email = emailInput.value.trim();
+                
+                if (!email) {
+                    msg.style.color = '#ff4757';
+                    msg.textContent = 'Please enter your email address.';
+                    return;
+                }
+                if (!email.includes('@') || !email.includes('.')) {
+                    msg.style.color = '#ff4757';
+                    msg.textContent = 'Please enter a valid email.';
+                    return;
+                }
+                
+                msg.style.color = 'var(--success)';
+                msg.textContent = 'Thanks for subscribing! You\'ll receive catalog updates.';
+                emailInput.value = '';
+                
+                localStorage.setItem('ebj_catalog_subscriber', email);
+            });
+        }
+
+        // User dropdown functionality (using localStorage for login state)
+        const userAccountLink = document.getElementById('userAccountLink');
+        const userDropdown = document.getElementById('userDropdown');
+        const dropdownArrow = document.getElementById('dropdownArrow');
+        
+        // Check if user is logged in from localStorage
+        const isLoggedIn = localStorage.getItem('ebj_isLoggedIn') === 'true';
+        const userEmail = localStorage.getItem('ebj_userEmail');
+        
+        if (isLoggedIn && userEmail) {
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            const displayName = userEmail.split('@')[0];
+            if (userNameDisplay) {
+                userNameDisplay.textContent = displayName.length > 12 ? displayName.substring(0,10)+'..' : displayName;
+            }
+            if (dropdownArrow) dropdownArrow.style.display = 'inline-block';
+            
+            // Check admin status from localStorage (simplified)
+            const isAdmin = localStorage.getItem('ebj_isAdmin') === 'true';
+            if (isAdmin) {
+                const adminLink = document.getElementById('adminDashboardLink');
+                const mobileAdminLink = document.getElementById('mobileAdminDashboardLink');
+                if (adminLink) adminLink.style.display = 'flex';
+                if (mobileAdminLink) mobileAdminLink.style.display = 'flex';
+            }
+        }
+        
+        if (userAccountLink && userDropdown) {
+            userAccountLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (isLoggedIn) {
+                    if (userDropdown.style.display === 'block') {
+                        userDropdown.style.display = 'none';
+                        if (dropdownArrow) dropdownArrow.style.transform = 'rotate(0deg)';
+                    } else {
+                        userDropdown.style.display = 'block';
+                        if (dropdownArrow) dropdownArrow.style.transform = 'rotate(180deg)';
+                        
+                        const mobileDropdown = document.getElementById('mobileDropdown');
+                        if (mobileDropdown) mobileDropdown.classList.remove('show');
+                    }
+                } else {
+                    window.location.href = 'login.html';
+                }
+            });
+        }
+        
+        const mobileUserLink = document.getElementById('mobileUserLink');
+        const mobileDropdown = document.getElementById('mobileDropdown');
+        
+        if (mobileUserLink && mobileDropdown) {
+            mobileUserLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (isLoggedIn) {
+                    mobileDropdown.classList.toggle('show');
+                    
+                    if (userDropdown) userDropdown.style.display = 'none';
+                    if (dropdownArrow) dropdownArrow.style.transform = 'rotate(0deg)';
+                } else {
+                    window.location.href = 'login.html';
+                }
+            });
+        }
+        
+        document.addEventListener('click', function(e) {
+            if (userDropdown && userAccountLink && !userAccountLink.contains(e.target) && !userDropdown.contains(e.target)) {
+                userDropdown.style.display = 'none';
+                if (dropdownArrow) dropdownArrow.style.transform = 'rotate(0deg)';
+            }
+            
+            if (mobileDropdown && mobileUserLink && !mobileUserLink.contains(e.target) && !mobileDropdown.contains(e.target)) {
+                mobileDropdown.classList.remove('show');
+            }
+        });
+
+        // Logout buttons
+        const logoutBtn = document.getElementById('logoutBtn');
+        const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+        
+        const handleLogout = (e) => {
+            e.preventDefault();
+            localStorage.removeItem('ebj_isLoggedIn');
+            localStorage.removeItem('ebj_userEmail');
+            localStorage.removeItem('ebj_isAdmin');
+            window.location.href = 'index.html';
+        };
+        
+        if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+        if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleLogout);
+
+        // Notification function
+        function showNotification(message, type = 'success') {
+            const notif = document.createElement('div');
+            notif.className = `notification ${type}`;
+            notif.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i><span>${message}</span>`;
+            document.body.appendChild(notif);
+            
+            setTimeout(() => {
+                notif.style.animation = 'slideOutRight 0.3s';
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
