@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Admin Dashboard | EyewearByJoan – Cameroon</title>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-7NEZBM7FWS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-7NEZBM7FWS');
-    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2476,6 +2469,53 @@
             border-radius: 8px;
             margin: 10px 0;
         }
+        /* Stock Alert Styles */
+.stock-alert {
+    background: #fff3cd;
+    border-left: 4px solid #ff9800;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stock-alert.critical {
+    background: #f8d7da;
+    border-left-color: #dc3545;
+}
+
+.stock-alert.warning {
+    background: #fff3cd;
+    border-left-color: #ff9800;
+}
+
+.stock-alert .alert-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stock-alert .alert-content i {
+    font-size: 1.2rem;
+}
+
+.stock-alert.critical .alert-content i {
+    color: #dc3545;
+}
+
+.stock-alert.warning .alert-content i {
+    color: #ff9800;
+}
+
+.stock-alert button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #666;
+}
     </style>
 </head>
 
@@ -2846,23 +2886,46 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Blog Section -->
-            <div id="blog-section" style="display: none;">
-                <div class="section-card">
-                    <div class="section-header">
-                        <h2><i class="fas fa-blog"></i> Blog Posts</h2>
-                        <button class="btn-add" onclick="showAddBlogModal()">
-                            <i class="fas fa-plus-circle"></i> Create New Post
-                        </button>
-                    </div>
-                    
-                    <!-- Blog Posts Grid -->
-                    <div class="blog-grid" id="blogGrid">
-                        <!-- Blog posts will be loaded here -->
-                    </div>
-                </div>
+<!-- Blog Section -->
+<div id="blog-section" style="display: none;">
+    <div class="section-card">
+        <div class="section-header">
+            <h2><i class="fas fa-blog"></i> Blog Posts</h2>
+            <div style="display: flex; gap: 10px;">
+                <span class="stat-badge" style="background: var(--primary); padding: 8px 15px; border-radius: 50px;">
+                    <i class="fas fa-newspaper"></i> Total Blogs: <span id="totalBlogsCount">0</span>
+                </span>
+                <button class="btn-add" onclick="showAddBlogModal()">
+                    <i class="fas fa-plus-circle"></i> Create New Post
+                </button>
             </div>
+        </div>
+        
+        <!-- Blog Stats Cards -->
+        <div class="newsletter-stats" style="margin-bottom: 20px;">
+            <div class="newsletter-stat-card">
+                <i class="fas fa-newspaper"></i>
+                <div class="stat-number" id="totalBlogsCountCard">0</div>
+                <div class="stat-label">Total Blogs</div>
+            </div>
+            <div class="newsletter-stat-card">
+                <i class="fas fa-eye"></i>
+                <div class="stat-number" id="totalBlogViews">0</div>
+                <div class="stat-label">Total Views</div>
+            </div>
+            <div class="newsletter-stat-card">
+                <i class="fas fa-calendar-week"></i>
+                <div class="stat-number" id="blogsThisMonth">0</div>
+                <div class="stat-label">Created This Month</div>
+            </div>
+        </div>
+        
+        <!-- Blog Posts Grid -->
+        <div class="blog-grid" id="blogGrid">
+            <!-- Blog posts will be loaded here -->
+        </div>
+    </div>
+</div>
 
             <!-- Analytics Section -->
             <div id="analytics-section" style="display: none;">
@@ -2904,6 +2967,8 @@
                         </div>
                     </div>
                 </div>
+                <!-- Stock Alerts Container -->
+<div id="stockAlertsContainer" style="margin-bottom: 20px;"></div>
 
                 <div class="analytics-grid">
                     <div class="chart-card">
@@ -2935,6 +3000,7 @@
                     </div>
                 </div>
             </div>
+            
 
             <!-- Admins Section -->
             <div id="admins-section" style="display: none;">
@@ -3098,13 +3164,13 @@
                         <input type="text" id="productId" class="form-control" placeholder="e.g., yuyu-jc038" required>
                     </div>
                     <div class="form-group">
-                        <label>Type</label>
-                        <select id="productType" class="form-control" onchange="toggleColorSection()">
-                            <option value="photochromic">Photochromic</option>
-                            <option value="bluelight">Blue Light</option>
-                            <option value="accessory">Accessory</option>
-                        </select>
-                    </div>
+    <label>Type</label>
+    <select id="productType" class="form-control" onchange="toggleColorSection()">
+        <option value="photochromic">Photochromic</option>
+        <option value="bluelight">Blue Light</option>
+    </select>
+    <small class="small-text">Accessories are managed in the Accessories section</small>
+</div>
                 </div>
 
                 <div class="form-row">
@@ -3266,42 +3332,71 @@
         </div>
     </div>
 
-    <!-- Compose Newsletter Modal -->
-    <div class="modal" id="newsletterModal">
-        <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <h3><i class="fas fa-paper-plane"></i> Compose Newsletter</h3>
-                <span class="close-modal" onclick="closeModal('newsletterModal')">&times;</span>
-            </div>
-            <form id="newsletterForm">
-                <div class="form-group">
-                    <label>Send To</label>
-                    <select id="newsletterRecipients" class="form-control" required>
-                        <option value="all">All Subscribers</option>
-                        <option value="selected">Selected Subscribers</option>
-                        <option value="last30">Subscribed in Last 30 Days</option>
-                        <option value="last7">Subscribed in Last 7 Days</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Subject</label>
-                    <input type="text" id="newsletterSubject" class="form-control" required placeholder="e.g., New Arrivals Just Landed!">
-                </div>
-                <div class="form-group">
-                    <label>Message</label>
-                    <textarea id="newsletterMessage" class="form-control" rows="8" required placeholder="Write your newsletter content here..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Recipient Count</label>
-                    <p id="recipientCount" style="color: var(--primary); font-weight: 600;">0 subscribers will receive this</p>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn-outline" onclick="closeModal('newsletterModal')">Cancel</button>
-                    <button type="submit" class="btn-success">Send Newsletter</button>
-                </div>
-            </form>
+   <!-- Compose Newsletter Modal - Enhanced -->
+<div class="modal" id="newsletterModal">
+    <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-header">
+            <h3><i class="fas fa-paper-plane"></i> Compose Newsletter</h3>
+            <span class="close-modal" onclick="closeModal('newsletterModal')">&times;</span>
         </div>
+        <form id="newsletterForm">
+            <div class="form-group">
+                <label>Send To</label>
+                <select id="newsletterRecipients" class="form-control" required>
+                    <option value="all">All Subscribers</option>
+                    <option value="selected">Selected Subscribers</option>
+                    <option value="last30">Subscribed in Last 30 Days</option>
+                    <option value="last7">Subscribed in Last 7 Days</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Subject</label>
+                <input type="text" id="newsletterSubject" class="form-control" required placeholder="e.g., New Arrivals Just Landed!">
+            </div>
+            
+            <!-- WhatsApp Option -->
+            <div class="form-group">
+                <label><i class="fab fa-whatsapp" style="color:#25D366;"></i> Also Send via WhatsApp?</label>
+                <select id="newsletterSendWhatsApp" class="form-control">
+                    <option value="no">No, email only</option>
+                    <option value="yes">Yes, send via WhatsApp too</option>
+                </select>
+                <small class="small-text">WhatsApp will be sent to subscribers with phone numbers</small>
+            </div>
+            
+            <!-- Product Selector -->
+            <div class="form-group">
+                <label><i class="fas fa-glasses"></i> Feature Products in Newsletter</label>
+                <div id="productSelector" style="max-height: 300px; overflow-y: auto; border: 1px solid var(--gray-light); border-radius: 8px; padding: 10px;">
+                    <p class="small-text">Loading products...</p>
+                </div>
+                <small class="small-text">Select up to 6 products to feature. Use [PRODUCTS] in your message to insert them</small>
+            </div>
+            
+            <div class="form-group">
+                <label>Message (Use [PRODUCTS] to insert selected products)</label>
+                <textarea id="newsletterMessage" class="form-control" rows="6" required placeholder="Write your newsletter content here...&#10;&#10;Check out our latest arrivals!&#10;&#10;[PRODUCTS]&#10;&#10;Shop now and get free shipping on orders over 50,000 FCFA!"></textarea>
+            </div>
+            
+            <!-- Preview Section -->
+            <div class="newsletter-preview-card" id="newsletterPreview">
+                <strong><i class="fas fa-eye"></i> Preview:</strong>
+                <div id="previewContent" style="margin-top: 10px; padding: 10px; background: white; border-radius: 8px; min-height: 100px;">
+                    Your newsletter preview will appear here...
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Recipient Count</label>
+                <p id="recipientCount" style="color: var(--primary); font-weight: 600;">0 subscribers will receive this</p>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-outline" onclick="closeModal('newsletterModal')">Cancel</button>
+                <button type="submit" class="btn-success">Send Newsletter</button>
+            </div>
+        </form>
     </div>
+</div>
 
    
 
