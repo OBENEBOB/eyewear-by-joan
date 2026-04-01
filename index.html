@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>EyewearByJoan | Premium Eyewear – Cameroon</title>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-7NEZBM7FWS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-7NEZBM7FWS');
-    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,8 +11,8 @@
     <style>
         /* ---------- ROOT VARIABLES – BRAND COLORS ---------- */
         :root {
-            --pink-soft: #FFCDD2;
-            --pink-dark: #F8BBD0;
+            --pink-soft: #ff97a2;
+            --pink-dark: #ffa1c2;
             --black: #000000;
             --white: #FFFFFF;
             --gray-light: #F5F5F5;
@@ -801,9 +794,9 @@
             opacity: 0.9;
         }
 
-        .slide-1 .slide-bg { background-image: url('https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=1600&q=80'); }
-        .slide-2 .slide-bg { background-image: url('https://images.unsplash.com/photo-1581783898377-1c85bf937427?auto=format&fit=crop&w=1600&q=80'); }
-        .slide-3 .slide-bg { background-image: url('https://images.unsplash.com/photo-1556306535-38febf6783e7?auto=format&fit=crop&w=1600&q=80'); }
+        .slide-1 .slide-bg { background-image: url('images/download\ \(3\).jpg'); }
+        .slide-2 .slide-bg { background-image: url('images/download\ \(4\).jpg'); }
+        .slide-3 .slide-bg { background-image: url('images/zeelool-glasses-eIE2Oikd4E0-unsplash.jpg'); }
 
         .slider-controls {
             position: absolute;
@@ -2366,7 +2359,7 @@
             }
         }
 
-        /* ========== MOBILE RESPONSIVE - STANDARDIZED ========== */
+         /* ========== MOBILE RESPONSIVE - STANDARDIZED ========== */
         @media (max-width: 1024px) {
             /* Hide desktop actions */
             .desktop-actions {
@@ -2663,6 +2656,11 @@
             
             .catalog-visual-mini {
                 flex: 0 0 auto;
+                margin-top: 30px;
+            }
+            
+            .qr-pulse {
+                margin: 0 auto 15px auto;
             }
             
             .lifestyle-cards {
@@ -2701,6 +2699,52 @@
             
             .whatsapp-contact {
                 justify-content: center;
+            }
+
+            /* FIX: BUTTON TEXT CENTERING ON MOBILE */
+            .btn, 
+            .view-product, 
+            .catalog-cta-simple, 
+            .how-btn, 
+            .view-more-btn, 
+            .explore-more-btn,
+            .btn-primary,
+            .btn-outline,
+            .btn-secondary,
+            .category-btn,
+            .social-cta .btn,
+            .blog-content .btn-outline {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+                line-height: 1.4 !important;
+                white-space: normal !important;
+                word-break: break-word !important;
+                min-height: 48px !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+            
+            .btn:hover,
+            .view-product:hover {
+                transform: translateY(-2px) !important;
+            }
+            
+            .btn i,
+            .view-product i,
+            .catalog-cta-simple i {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin: 0 4px !important;
+            }
+            
+            .blog-content .btn-outline {
+                align-self: center !important;
+                width: 100% !important;
+                max-width: 200px !important;
+                margin-top: 16px !important;
             }
         }
 
@@ -2832,6 +2876,13 @@
             
             .newsletter-box h2 {
                 font-size: 1.8rem;
+            }
+
+            .btn,
+            .view-product,
+            .blog-content .btn-outline {
+                width: 100% !important;
+                max-width: 100% !important;
             }
         }
 
@@ -3072,7 +3123,7 @@
             <div class="slide-content">
                 <h1>See Clearly, Stay Protected</h1>
                 <p>Photochromic lenses that adapt to changing light, clear indoors, dark outdoors, perfect for everyday life in Cameroon.</p>
-                <a href="shop-photochromic.html" class="btn btn-primary">Shop Photochromic</a>
+                <a href="shop-photochromic.html" class="btn btn-primary">Shop Photochromic Lenses</a>
             </div>
         </div>
         <div class="slide slide-2">
@@ -3081,7 +3132,7 @@
             <div class="slide-content">
                 <h1>Protect Your Eyes from Screen Strain</h1>
                 <p>Anti-blue light glasses designed for long hours, digital lifestyles, reducing eye fatigue and improving sleep quality.</p>
-                <a href="shop-anti-blue-light.html" class="btn btn-primary">Shop Anti-Blue Light</a>
+                <a href="shop-anti-blue-light.html" class="btn btn-primary">Shop Anti-Blue Light Lenses</a>
             </div>
         </div>
         <div class="slide slide-3">
@@ -3825,10 +3876,10 @@
     });
 </script>
     
-    <!-- Main Script -->
+       <!-- Main Script -->
     <script>
         // ============================================
-        // SEARCH FUNCTIONALITY
+        // SEARCH FUNCTIONALITY - UNIFIED (FIXED)
         // ============================================
         
         const desktopSearchIcon = document.getElementById('desktopSearchIcon');
@@ -3839,8 +3890,10 @@
         const searchInput = document.getElementById('searchInput');
         const searchButton = document.getElementById('searchButton');
         const searchResults = document.getElementById('searchResults');
+        const mobileSearchContainer = document.getElementById('mobileSearchContainer');
 
         let allProducts = [];
+        let allBlogPosts = [];
 
         function loadProducts() {
             if (window.products && window.products.length > 0) {
@@ -3857,9 +3910,59 @@
             }
         }
 
+        // Load blog posts from Firestore for search
+        async function loadBlogPostsForSearch() {
+            try {
+                if (typeof firebase !== 'undefined' && firebase.firestore) {
+                    const db = firebase.firestore();
+                    console.log('Loading blog posts for search...');
+                    
+                    const snapshot = await db.collection('blog_posts')
+                        .where('published', '==', true)
+                        .limit(50)
+                        .get();
+                    
+                    allBlogPosts = [];
+                    snapshot.forEach(doc => {
+                        const post = doc.data();
+                        let plainExcerpt = post.excerpt || '';
+                        if (!plainExcerpt && post.content) {
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = post.content;
+                            plainExcerpt = tempDiv.textContent || tempDiv.innerText || '';
+                            plainExcerpt = plainExcerpt.substring(0, 150);
+                        }
+                        
+                        allBlogPosts.push({
+                            id: doc.id,
+                            title: post.title || 'Untitled',
+                            excerpt: plainExcerpt,
+                            image: post.image,
+                            category: post.category || 'Blog',
+                            content: post.content || '',
+                            date: post.date
+                        });
+                    });
+                    console.log('Blog posts loaded for search:', allBlogPosts.length);
+                } else {
+                    console.log('Firebase not ready yet, will retry');
+                    setTimeout(loadBlogPostsForSearch, 1000);
+                }
+            } catch (error) {
+                console.error('Error loading blog posts for search:', error);
+            }
+        }
+
         loadProducts();
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadBlogPostsForSearch);
+        } else {
+            loadBlogPostsForSearch();
+        }
 
         function openSearch() {
+            if (mobileSearchContainer) mobileSearchContainer.classList.remove('active');
             searchOverlay.classList.add('active');
             setTimeout(() => searchInput.focus(), 300);
             searchResults.classList.remove('active');
@@ -3881,33 +3984,75 @@
                 return;
             }
             
-            const results = allProducts.filter(product => 
+            // Search products
+            const productResults = allProducts.filter(product => 
                 product.name.toLowerCase().includes(query) || 
                 (product.category && product.category.toLowerCase().includes(query))
             );
             
-            if (results.length > 0) {
+            // Search blog posts
+            const blogResults = allBlogPosts.filter(post => 
+                post.title.toLowerCase().includes(query) || 
+                (post.category && post.category.toLowerCase().includes(query)) ||
+                (post.excerpt && post.excerpt.toLowerCase().includes(query)) ||
+                (post.content && post.content.toLowerCase().includes(query))
+            );
+            
+            if (productResults.length > 0 || blogResults.length > 0) {
                 let resultsHTML = '';
-                results.forEach(product => {
-                    resultsHTML += `
-                        <a href="product-details.html?id=${product.id}" class="search-result-item" onclick="closeSearchOverlay()">
-                            <img src="${product.image}" alt="${product.name}">
-                            <div class="result-info">
-                                <div class="result-name">${product.name}</div>
-                                <div class="result-category">${product.category || 'Glasses'}</div>
-                                <div class="result-price">${product.price.toLocaleString()} FCFA</div>
-                            </div>
-                        </a>
-                    `;
-                });
+                
+                // Add product results
+                if (productResults.length > 0) {
+                    productResults.forEach(product => {
+                        resultsHTML += `
+                            <a href="product-details.html?id=${product.id}" class="search-result-item" onclick="closeSearchOverlay()">
+                                <img src="${product.image}" alt="${product.name}">
+                                <div class="result-info">
+                                    <div class="result-name">${product.name}</div>
+                                    <div class="result-category">${product.category || 'Glasses'}</div>
+                                    <div class="result-price">${product.price.toLocaleString()} FCFA</div>
+                                </div>
+                            </a>
+                        `;
+                    });
+                }
+                
+                // Add blog results
+                if (blogResults.length > 0) {
+                    blogResults.forEach(post => {
+                        let dateStr = '';
+                        if (post.date) {
+                            try {
+                                if (post.date.toDate) {
+                                    dateStr = post.date.toDate().toLocaleDateString();
+                                } else if (typeof post.date === 'string') {
+                                    dateStr = new Date(post.date).toLocaleDateString();
+                                }
+                            } catch(e) {}
+                        }
+                        
+                        resultsHTML += `
+                            <a href="blog-post.html?id=${post.id}" class="search-result-item" onclick="closeSearchOverlay()">
+                                <img src="${post.image || 'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?q=80&w=500&auto=format&fit=crop'}" alt="${post.title}">
+                                <div class="result-info">
+                                    <div class="result-name">${post.title}</div>
+                                    <div class="result-category">${post.category} ${dateStr ? '• ' + dateStr : ''}</div>
+                                    <div class="result-price" style="color: var(--pink-soft);">Read Article →</div>
+                                </div>
+                            </a>
+                        `;
+                    });
+                }
+                
                 searchResults.innerHTML = resultsHTML;
                 searchResults.classList.add('active');
             } else {
-                searchResults.innerHTML = '<div class="no-results">No products found matching "' + query + '"</div>';
+                searchResults.innerHTML = '<div class="no-results">No results found for "' + query + '"</div>';
                 searchResults.classList.add('active');
             }
         }
 
+        // Desktop search triggers
         if (desktopSearchIcon) {
             desktopSearchIcon.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -3922,12 +4067,19 @@
             });
         }
 
+        // Mobile search icon - ONLY opens overlay (NO slide-down toggle)
         if (mobileSearchIcon) {
-            mobileSearchIcon.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                openSearch();
-            });
+            // Remove existing listeners by replacing with a fresh clone
+            const newMobileIcon = mobileSearchIcon.cloneNode(true);
+            mobileSearchIcon.parentNode.replaceChild(newMobileIcon, mobileSearchIcon);
+            const freshMobileIcon = document.getElementById('mobileSearchIcon');
+            if (freshMobileIcon) {
+                freshMobileIcon.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openSearch();
+                });
+            }
         }
 
         if (closeSearch) {
@@ -3977,7 +4129,7 @@
             mobileToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 navMenu.classList.toggle('active');
-                document.getElementById('mobileSearchContainer')?.classList.remove('active');
+                if (mobileSearchContainer) mobileSearchContainer.classList.remove('active');
             });
         }
 
@@ -4025,58 +4177,6 @@
                         const link = parent.querySelector('a');
                         const chevron = link?.querySelector('i.fa-chevron-down');
                         if (chevron) chevron.style.transform = 'rotate(0deg)';
-                    }
-                });
-            }
-        });
-
-        // ============================================
-        // MOBILE SEARCH
-        // ============================================
-        const searchIcon = document.getElementById('mobileSearchIcon');
-        const searchContainer = document.getElementById('mobileSearchContainer');
-        if (searchIcon && searchContainer) {
-            searchIcon.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                searchContainer.classList.toggle('active');
-                navMenu?.classList.remove('active');
-                if (searchContainer.classList.contains('active')) {
-                    setTimeout(() => document.querySelector('.mobile-search-input')?.focus(), 300);
-                }
-            });
-        }
-
-        // ============================================
-        // NEWSLETTER SUBSCRIPTION
-        // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const subscribeBtn = document.getElementById('subscribeBtn');
-            const emailInput = document.getElementById('newsletterEmail');
-            const msg = document.getElementById('subscribeMessage');
-
-            if (subscribeBtn) {
-                subscribeBtn.addEventListener('click', async function(e) {
-                    e.preventDefault();
-                    const email = emailInput.value.trim();
-                    
-                    if (!email) {
-                        msg.style.color = '#ff4757';
-                        msg.textContent = 'Please enter your email address.';
-                        return;
-                    }
-                    if (!email.includes('@') || !email.includes('.')) {
-                        msg.style.color = '#ff4757';
-                        msg.textContent = 'Please enter a valid email.';
-                        return;
-                    }
-                    
-                    if (window.handleNewsletterSubscribe) {
-                        await window.handleNewsletterSubscribe(email);
-                    } else {
-                        msg.style.color = 'var(--success)';
-                        msg.textContent = 'Thanks for subscribing!';
-                        emailInput.value = '';
                     }
                 });
             }
@@ -4161,7 +4261,6 @@
             }, 2500);
         }
 
-        // Attach wishlist listeners
         function attachWishlistListeners() {
             document.querySelectorAll('.wishlist-btn').forEach(btn => {
                 btn.removeEventListener('click', handleWishlistClick);
@@ -4184,7 +4283,6 @@
             toggleWishlist(btn, productId, productName);
         }
 
-        // Initialize wishlist
         updateWishlistCount();
         updateWishlistIcons();
         attachWishlistListeners();
@@ -4296,6 +4394,15 @@
         window.addEventListener('click', e => { 
             if (e.target === modal) modal.style.display = 'none'; 
         });
+
+        // Reload blog posts when page is ready
+        function ensureBlogPostsLoaded() {
+            if (allBlogPosts.length === 0 && typeof firebase !== 'undefined') {
+                console.log('Reloading blog posts...');
+                loadBlogPostsForSearch();
+            }
+        }
+        setTimeout(ensureBlogPostsLoaded, 2000);
     </script>
 </body>
 </html>
