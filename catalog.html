@@ -885,37 +885,62 @@
             background: white;
         }
 
-        /* Mobile PDF Message - NO DOWNLOAD OPTION */
-        .mobile-pdf-message {
+        /* Mobile PDF Viewer - Shows button instead of embed */
+        .mobile-pdf-viewer {
             display: none;
             text-align: center;
-            padding: 60px 20px;
+            padding: 50px 30px;
             background: white;
             border-radius: var(--border-radius);
         }
 
-        .mobile-pdf-message.show {
+        .mobile-pdf-viewer.show {
             display: block;
         }
 
-        .mobile-pdf-message i {
-            font-size: 4rem;
-            color: var(--pink-soft);
-            margin-bottom: 20px;
+        .mobile-pdf-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--pink-soft);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
         }
 
-        .mobile-pdf-message h3 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+        .mobile-pdf-icon i {
+            font-size: 2.5rem;
+            color: var(--black);
         }
 
-        .mobile-pdf-message p {
+        .mobile-pdf-viewer h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--black);
+        }
+
+        .mobile-pdf-viewer p {
             color: var(--gray-dark);
             margin-bottom: 25px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .mobile-pdf-message .btn {
-            margin: 8px;
+        .mobile-pdf-viewer .btn {
+            margin-top: 10px;
+        }
+
+        .mobile-pdf-note {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .mobile-pdf-note i {
+            color: var(--pink-soft);
+            margin-right: 5px;
         }
 
         /* Online Only Notice */
@@ -1885,22 +1910,24 @@
             <a href="https://wa.me/237654373909?text=Hello%20EyewearByJoan,%20I'm%20interested%20in%20your%20catalog" class="btn btn-outline" target="_blank"><i class="fab fa-whatsapp"></i> Order via WhatsApp</a>
         </div>
 
-        <!-- PDF EMBED - VIEW ONLY (NO DOWNLOAD) -->
+        <!-- PDF VIEWER - MOBILE FRIENDLY (NO DOWNLOAD) -->
         <div class="pdf-container">
-            <!-- PDF Embed -->
+            <!-- Desktop: Show PDF embed -->
             <embed src="catalog 3.pdf" type="application/pdf" class="pdf-viewer" id="pdfEmbed">
             
-            <!-- Mobile message - OPEN ONLY, NO DOWNLOAD -->
-            <div class="mobile-pdf-message" id="mobilePdfMessage">
-                <i class="fas fa-eye"></i>
-                <h3>View Online Catalog</h3>
-                <p>For the best experience, open this catalog in your browser. This ensures you always see the latest products, prices, and updates.</p>
-                <a href="catalog 3.pdf" class="btn btn-primary" target="_blank" id="openPdfBtn">
+            <!-- Mobile: Show button to open in browser (NO DOWNLOAD) -->
+            <div class="mobile-pdf-viewer" id="mobilePdfViewer">
+                <div class="mobile-pdf-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3>View Digital Catalog</h3>
+                <p>Tap the button below to view our catalog in your browser. This ensures you always see the latest products and prices.</p>
+                <a href="catalog 3.pdf" class="btn btn-primary" target="_blank" id="openCatalogBtn">
                     <i class="fas fa-external-link-alt"></i> Open Catalog
                 </a>
-                <p style="font-size: 0.8rem; margin-top: 15px;">
+                <div class="mobile-pdf-note">
                     <i class="fas fa-sync-alt"></i> Always up-to-date • No download needed
-                </p>
+                </div>
             </div>
         </div>
 
@@ -2028,41 +2055,31 @@
     <!-- Main Script -->
     <script>
         // ============================================
-        // MOBILE PDF VIEWER DETECTION - NO DOWNLOAD
+        // MOBILE PDF VIEWER - SHOW BUTTON INSTEAD OF EMBED
         // ============================================
-        
+
         function isMobileDevice() {
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
-        
-        function canDisplayPDF() {
-            const userAgent = navigator.userAgent;
-            if (/iPad|iPhone|iPod/.test(userAgent)) return true;
-            if (/Android/.test(userAgent) && /Chrome/.test(userAgent)) return true;
-            if (!isMobileDevice()) return true;
-            return false;
-        }
-        
-        const pdfEmbed = document.getElementById('pdfEmbed');
-        const mobileMessage = document.getElementById('mobilePdfMessage');
-        
-        function setupPDFView() {
-            if (isMobileDevice() && !canDisplayPDF()) {
+
+        // On mobile, ALWAYS show the button instead of trying to embed the PDF
+        // This prevents the "download" popup on mobile browsers
+        const pdfEmbed = document.querySelector('.pdf-viewer');
+        const mobilePdfViewer = document.getElementById('mobilePdfViewer');
+
+        function setupMobilePDFView() {
+            if (isMobileDevice()) {
+                // Hide the PDF embed on mobile (it forces download)
                 if (pdfEmbed) pdfEmbed.style.display = 'none';
-                if (mobileMessage) mobileMessage.classList.add('show');
+                // Show the mobile button view
+                if (mobilePdfViewer) mobilePdfViewer.classList.add('show');
             } else {
+                // Desktop: Show PDF embed
                 if (pdfEmbed) pdfEmbed.style.display = 'block';
-                if (mobileMessage) mobileMessage.classList.remove('show');
-            }
-            
-            if (pdfEmbed) {
-                pdfEmbed.onerror = function() {
-                    if (pdfEmbed) pdfEmbed.style.display = 'none';
-                    if (mobileMessage) mobileMessage.classList.add('show');
-                };
+                if (mobilePdfViewer) mobilePdfViewer.classList.remove('show');
             }
         }
-        
+
         // ============================================
         // SEARCH FUNCTIONALITY
         // ============================================
@@ -2487,14 +2504,14 @@
         if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
         if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleLogout);
 
-        // Initialize PDF viewer
+        // Initialize PDF viewer on page load
         document.addEventListener('DOMContentLoaded', function() {
-            setupPDFView();
+            setupMobilePDFView();
             
-            const openPdfBtn = document.getElementById('openPdfBtn');
-            if (openPdfBtn) {
-                openPdfBtn.addEventListener('click', function() {
-                    showNotification('Opening live catalog in your browser...', 'info');
+            const openCatalogBtn = document.getElementById('openCatalogBtn');
+            if (openCatalogBtn) {
+                openCatalogBtn.addEventListener('click', function() {
+                    showNotification('Opening catalog in your browser...', 'info');
                 });
             }
         });
