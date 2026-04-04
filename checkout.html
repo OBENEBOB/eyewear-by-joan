@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Checkout | EyewearByJoan – Cameroon</title>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-7NEZBM7FWS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-7NEZBM7FWS');
-    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2819,7 +2812,7 @@
             <div class="payment-method-cards">
                 <div class="payment-method-card" onclick="selectPaymentMethod('mtn')" id="mtn-card">
                     <div class="payment-method-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/MTN_Logo.svg/2560px-MTN_Logo.svg.png" alt="MTN MoMo">
+                        <img src="images/download (6).jpg" alt="MTN MoMo">
                     </div>
                     <div class="payment-method-info">
                         <div class="payment-method-name">MTN MoMo</div>
@@ -2829,7 +2822,7 @@
                 
                 <div class="payment-method-card" onclick="selectPaymentMethod('orange')" id="orange-card">
                     <div class="payment-method-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Orange_Money_logo.svg/2560px-Orange_Money_logo.svg.png" alt="Orange Money">
+                        <img src="images/Côte d’Ivoire- Augmentation des tarifs_ Orange-Money accusé d’escroquerie…le gouvernement et l’ARTCI interpellés, AFRICANEWSQUICK.jpg" alt="Orange Money">
                     </div>
                     <div class="payment-method-info">
                         <div class="payment-method-name">Orange Money</div>
@@ -2839,7 +2832,7 @@
                 
                 <div class="payment-method-card" onclick="selectPaymentMethod('cash')" id="cash-card">
                     <div class="payment-method-logo">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2830/2830288.png" alt="Cash on Delivery">
+                        <img src="images/Handing PNG Transparent, Hand In Hand, Vector Png, Express Delivery, Hand Drawn Wind PNG Image For Free Download.jpg" alt="Cash on Delivery">
                     </div>
                     <div class="payment-method-info">
                         <div class="payment-method-name">Cash on Delivery</div>
@@ -2853,7 +2846,7 @@
         <div class="payment-details-section" id="mtn-payment">
             <div class="payment-details-header">
                 <div class="payment-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/MTN_Logo.svg/2560px-MTN_Logo.svg.png" alt="MTN MoMo">
+                    <img src="images/download (6).jpg" alt="MTN MoMo">
                 </div>
                 <h2>MTN MoMo</h2>
             </div>
@@ -2923,7 +2916,7 @@
         <div class="payment-details-section" id="orange-payment">
             <div class="payment-details-header">
                 <div class="payment-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Orange_Money_logo.svg/2560px-Orange_Money_logo.svg.png" alt="Orange Money">
+                    <img src="images/Côte d’Ivoire- Augmentation des tarifs_ Orange-Money accusé d’escroquerie…le gouvernement et l’ARTCI interpellés, AFRICANEWSQUICK.jpg" alt="Orange Money">
                 </div>
                 <h2>Orange Money</h2>
             </div>
@@ -2993,7 +2986,7 @@
         <div class="payment-details-section" id="cash-payment">
             <div class="payment-details-header">
                 <div class="payment-logo">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2830/2830288.png" alt="Cash on Delivery">
+                    <img src="images/Handing PNG Transparent, Hand In Hand, Vector Png, Express Delivery, Hand Drawn Wind PNG Image For Free Download.jpg" alt="Cash on Delivery">
                 </div>
                 <h2>Cash on Delivery</h2>
             </div>
@@ -3115,7 +3108,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, collection, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA3KrbX7rfLEpbKYPgXBkozyI0gNkveU1Y",
@@ -3135,7 +3128,9 @@
         window.db = db;
         window.collection = collection;
         window.addDoc = addDoc;
-
+window.getDoc = getDoc;
+window.doc = doc;
+window.updateDoc = updateDoc;
         // Admin redirect
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -3389,8 +3384,8 @@
         window.autoFillUserEmail = autoFillUserEmail;
     </script>
     
-    <!-- Main Checkout Script -->
-    <script>
+       <!-- Main Checkout Script -->
+   <script>
         // ============================================
         // SEARCH FUNCTIONALITY
         // ============================================
@@ -3403,15 +3398,14 @@
         const searchInput = document.getElementById('searchInput');
         const searchButton = document.getElementById('searchButton');
         const searchResults = document.getElementById('searchResults');
+        const mobileSearchContainer = document.getElementById('mobileSearchContainer');
 
         let allProducts = [];
 
         function loadProducts() {
             if (window.products && window.products.length > 0) {
                 allProducts = window.products;
-                console.log('Products loaded:', allProducts.length);
             } else {
-                console.log('Using fallback products');
                 allProducts = [
                     { id: 'lumera-jc039', name: 'LUMERA', category: 'Photochromic', price: 9800, image: 'https://images.unsplash.com/photo-1556306535-38febf6783e7?q=80&w=500&auto=format&fit=crop' },
                     { id: 'kira-jc036', name: 'KIRA', category: 'Photochromic', price: 12500, image: 'https://images.unsplash.com/photo-1556306535-38febf6783e7?q=80&w=500&auto=format&fit=crop' },
@@ -3424,6 +3418,7 @@
         loadProducts();
 
         function openSearch() {
+            if (mobileSearchContainer) mobileSearchContainer.classList.remove('active');
             searchOverlay.classList.add('active');
             setTimeout(() => searchInput.focus(), 300);
             searchResults.classList.remove('active');
@@ -3439,32 +3434,25 @@
 
         function performSearch() {
             const query = searchInput.value.trim().toLowerCase();
-            
             if (query.length < 2) {
                 searchResults.classList.remove('active');
                 return;
             }
-            
             const results = allProducts.filter(product => 
                 product.name.toLowerCase().includes(query) || 
                 (product.category && product.category.toLowerCase().includes(query))
             );
-            
             if (results.length > 0) {
-                let resultsHTML = '';
-                results.forEach(product => {
-                    resultsHTML += `
-                        <a href="product-details.html?id=${product.id}" class="search-result-item" onclick="closeSearchOverlay()">
-                            <img src="${product.image}" alt="${product.name}">
-                            <div class="result-info">
-                                <div class="result-name">${product.name}</div>
-                                <div class="result-category">${product.category || 'Glasses'}</div>
-                                <div class="result-price">${product.price.toLocaleString()} FCFA</div>
-                            </div>
-                        </a>
-                    `;
-                });
-                searchResults.innerHTML = resultsHTML;
+                searchResults.innerHTML = results.map(product => `
+                    <a href="product-details.html?id=${product.id}" class="search-result-item" onclick="closeSearchOverlay()">
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="result-info">
+                            <div class="result-name">${product.name}</div>
+                            <div class="result-category">${product.category || 'Glasses'}</div>
+                            <div class="result-price">${product.price.toLocaleString()} FCFA</div>
+                        </div>
+                    </a>
+                `).join('');
                 searchResults.classList.add('active');
             } else {
                 searchResults.innerHTML = '<div class="no-results">No products found matching "' + query + '"</div>';
@@ -3472,198 +3460,151 @@
             }
         }
 
-        if (desktopSearchIcon) {
-            desktopSearchIcon.addEventListener('click', function(e) {
-                e.preventDefault();
-                openSearch();
-            });
-        }
-
-        if (desktopSearchInput) {
-            desktopSearchInput.addEventListener('click', function(e) {
-                e.preventDefault();
-                openSearch();
-            });
-        }
-
+        if (desktopSearchIcon) desktopSearchIcon.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
+        if (desktopSearchInput) desktopSearchInput.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
+        
         if (mobileSearchIcon) {
-            mobileSearchIcon.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                openSearch();
-            });
+            const newMobileIcon = mobileSearchIcon.cloneNode(true);
+            mobileSearchIcon.parentNode.replaceChild(newMobileIcon, mobileSearchIcon);
+            const freshMobileIcon = document.getElementById('mobileSearchIcon');
+            if (freshMobileIcon) freshMobileIcon.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openSearch(); });
         }
 
-        if (closeSearch) {
-            closeSearch.addEventListener('click', closeSearchOverlay);
-        }
-
-        if (searchInput) {
-            searchInput.addEventListener('input', performSearch);
-        }
-
-        if (searchButton) {
-            searchButton.addEventListener('click', performSearch);
-        }
-
-        if (searchInput) {
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    performSearch();
-                }
-            });
-        }
-
-        if (searchOverlay) {
-            searchOverlay.addEventListener('click', function(e) {
-                if (e.target === searchOverlay) {
-                    closeSearchOverlay();
-                }
-            });
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
-                closeSearchOverlay();
-            }
-        });
-
-        window.closeSearchOverlay = closeSearchOverlay;
+        if (closeSearch) closeSearch.addEventListener('click', closeSearchOverlay);
+        if (searchInput) searchInput.addEventListener('input', performSearch);
+        if (searchButton) searchButton.addEventListener('click', performSearch);
+        if (searchInput) searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); performSearch(); } });
+        if (searchOverlay) searchOverlay.addEventListener('click', (e) => { if (e.target === searchOverlay) closeSearchOverlay(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && searchOverlay.classList.contains('active')) closeSearchOverlay(); });
 
         // ============================================
         // MOBILE MENU TOGGLE
         // ============================================
         const mobileToggle = document.querySelector('.mobile-toggle');
         const navMenu = document.querySelector('.nav-menu');
-        
         if (mobileToggle && navMenu) {
-            mobileToggle.addEventListener('click', function(e) {
+            mobileToggle.addEventListener('click', (e) => {
                 e.stopPropagation();
                 navMenu.classList.toggle('active');
-                document.getElementById('mobileSearchContainer')?.classList.remove('active');
+                if (mobileSearchContainer) mobileSearchContainer.classList.remove('active');
             });
         }
 
         // ============================================
         // DROPDOWNS
         // ============================================
-        const dropdowns = document.querySelectorAll('.has-dropdown');
-        dropdowns.forEach(dropdown => {
+        document.querySelectorAll('.has-dropdown').forEach(dropdown => {
             const link = dropdown.querySelector('a');
             const menu = dropdown.querySelector('.dropdown');
             if (link && menu) {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    
                     const chevron = this.querySelector('i.fa-chevron-down');
-                    
                     if (window.innerWidth > 1024) {
                         document.querySelectorAll('.dropdown.active').forEach(active => {
-                            if (active !== menu) {
-                                active.classList.remove('active');
-                                const otherLink = active.closest('.has-dropdown')?.querySelector('a');
-                                if (otherLink) {
-                                    const otherChev = otherLink.querySelector('i.fa-chevron-down');
-                                    if (otherChev) otherChev.style.transform = 'rotate(0deg)';
-                                }
-                            }
+                            if (active !== menu) active.classList.remove('active');
                         });
                     }
-                    
                     menu.classList.toggle('active');
-                    if (chevron) {
-                        chevron.style.transform = menu.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
-                    }
+                    if (chevron) chevron.style.transform = menu.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
                 });
             }
         });
 
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', (e) => {
             if (window.innerWidth > 1024 && !e.target.closest('.has-dropdown')) {
-                document.querySelectorAll('.dropdown.active').forEach(dropdown => {
-                    dropdown.classList.remove('active');
-                    const parent = dropdown.closest('.has-dropdown');
-                    if (parent) {
-                        const link = parent.querySelector('a');
-                        const chevron = link?.querySelector('i.fa-chevron-down');
-                        if (chevron) chevron.style.transform = 'rotate(0deg)';
-                    }
-                });
+                document.querySelectorAll('.dropdown.active').forEach(dropdown => dropdown.classList.remove('active'));
             }
         });
 
         // ============================================
-        // MOBILE SEARCH
+        // USER DROPDOWN TOGGLES
         // ============================================
-        const searchIcon = document.getElementById('mobileSearchIcon');
-        const searchContainer = document.getElementById('mobileSearchContainer');
-        if (searchIcon && searchContainer) {
-            searchIcon.addEventListener('click', function(e) {
+        const userAccountLink = document.getElementById('userAccountLink');
+        const userDropdown = document.getElementById('userDropdown');
+        const dropdownArrow = document.getElementById('dropdownArrow');
+
+        if (userAccountLink && userDropdown) {
+            userAccountLink.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                searchContainer.classList.toggle('active');
-                navMenu?.classList.remove('active');
-                if (searchContainer.classList.contains('active')) {
-                    setTimeout(() => document.querySelector('.mobile-search-input')?.focus(), 300);
+                if (window.auth && window.auth.currentUser) {
+                    if (userDropdown.style.display === 'block') {
+                        userDropdown.style.display = 'none';
+                        if (dropdownArrow) dropdownArrow.style.transform = 'rotate(0deg)';
+                    } else {
+                        userDropdown.style.display = 'block';
+                        if (dropdownArrow) dropdownArrow.style.transform = 'rotate(180deg)';
+                        document.getElementById('mobileDropdown')?.classList.remove('show');
+                    }
+                } else {
+                    window.location.href = 'login.html';
                 }
             });
         }
 
-        // ============================================
-        // SUBSCRIBE BUTTON
-        // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const subscribeBtn = document.getElementById('subscribeBtn');
-            const emailInput = document.getElementById('newsletterEmail');
-            const msg = document.getElementById('subscribeMessage');
+        const mobileUserLink = document.getElementById('mobileUserLink');
+        const mobileDropdown = document.getElementById('mobileDropdown');
 
-            if (subscribeBtn) {
-                subscribeBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const email = emailInput.value.trim();
-                    
-                    if (!email) {
-                        msg.style.color = '#ff4757';
-                        msg.textContent = 'Please enter your email address.';
-                        return;
-                    }
-                    if (!email.includes('@') || !email.includes('.')) {
-                        msg.style.color = '#ff4757';
-                        msg.textContent = 'Please enter a valid email.';
-                        return;
-                    }
-                    
-                    msg.style.color = 'var(--success)';
-                    msg.textContent = 'Thanks for subscribing! Check your inbox soon.';
-                    emailInput.value = '';
-                    
-                    localStorage.setItem('ebj_subscriber', email);
-                });
+        if (mobileUserLink && mobileDropdown) {
+            mobileUserLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (window.auth && window.auth.currentUser) {
+                    mobileDropdown.classList.toggle('show');
+                    if (userDropdown) userDropdown.style.display = 'none';
+                    if (dropdownArrow) dropdownArrow.style.transform = 'rotate(0deg)';
+                } else {
+                    window.location.href = 'login.html';
+                }
+            });
+        }
+
+        const logoutBtn = document.getElementById('logoutBtn');
+        const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+        const handleLogout = async (e) => {
+            e.preventDefault();
+            try { if (window.auth) await window.auth.signOut(); window.location.href = 'index.html'; } catch (error) { console.error(error); }
+        };
+        if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+        if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleLogout);
+
+        document.addEventListener('click', function(e) {
+            if (userDropdown && userAccountLink && !userAccountLink.contains(e.target) && !userDropdown.contains(e.target)) {
+                userDropdown.style.display = 'none';
+                if (dropdownArrow) dropdownArrow.style.transform = 'rotate(0deg)';
+            }
+            if (mobileDropdown && mobileUserLink && !mobileUserLink.contains(e.target) && !mobileDropdown.contains(e.target)) {
+                mobileDropdown.classList.remove('show');
             }
         });
+
+        // ============================================
+        // NOTIFICATION FUNCTION
+        // ============================================
+        function showNotification(message, type = 'success') {
+            let notification = document.getElementById('notification');
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.id = 'notification';
+                notification.className = 'notification';
+                document.body.appendChild(notification);
+            }
+            const colors = { success: '#4CAF50', error: '#f44336', warning: '#ff9800' };
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle' };
+            notification.innerHTML = `<i class="fas ${icons[type]}" style="color:${colors[type]}"></i> <span>${message}</span>`;
+            notification.className = `notification ${type} show`;
+            notification.style.display = 'flex';
+            setTimeout(() => {
+                notification.classList.remove('show');
+                notification.style.display = 'none';
+            }, 4000);
+        }
 
         // ============================================
         // CHECKOUT FUNCTIONALITY
         // ============================================
-
-        // Wait for Firebase to be ready
-        function waitForFirebase() {
-            return new Promise((resolve) => {
-                if (window.db && window.collection && window.addDoc) {
-                    resolve();
-                } else {
-                    setTimeout(() => waitForFirebase().then(resolve), 100);
-                }
-            });
-        }
-
-        // Initialize when Firebase is ready
-        waitForFirebase().then(() => {
-            console.log('Firebase ready, starting checkout...');
-            initCheckout();
-        });
 
         let orderNumber = Math.floor(Math.random() * 1000) + 1;
         let selectedPaymentMethod = null;
@@ -3683,45 +3624,38 @@
             paymentMethod: null,
             transactionId: null,
             mtnScreenshot: null,
-            orangeScreenshot: null,
-            prescription: null
+            orangeScreenshot: null
         };
 
-        // Initialize checkout
-        function initCheckout() {
-            console.log('Initializing checkout...');
-            
-            // SECURITY: Check if user is logged in
-            if (typeof window.redirectIfNotLoggedIn === 'function' && !window.redirectIfNotLoggedIn()) {
-                return;
+        function scrollToElement(element) {
+            if (element) {
+                const offset = 100;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - offset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
             }
-            
+        }
+
+        function initCheckout() {
             loadCartItems();
             setupEventListeners();
             updateOrderNumber();
             setMinDeliveryDate();
-            checkPrescriptionItems();
             updateCartCount();
             loadWishlist();
             setupScreenshotHandlers();
-            
-            // Auto-fill user email
-            if (typeof window.autoFillUserEmail === 'function') {
-                window.autoFillUserEmail();
-            }
+            if (typeof window.autoFillUserEmail === 'function') window.autoFillUserEmail();
         }
 
-        // Setup screenshot handlers
         function setupScreenshotHandlers() {
-            // MTN screenshot handler
             const mtnScreenshot = document.getElementById('mtn-screenshot');
             if (mtnScreenshot) {
+                mtnScreenshot.removeAttribute('capture');
+                mtnScreenshot.setAttribute('accept', 'image/*');
                 mtnScreenshot.addEventListener('change', function(e) {
                     const file = e.target.files[0];
                     if (file) {
                         document.getElementById('mtn-screenshot-name').textContent = file.name;
-                        
-                        // Show preview
                         const reader = new FileReader();
                         reader.onload = function(e) {
                             const preview = document.getElementById('mtn-screenshot-preview');
@@ -3729,25 +3663,20 @@
                             preview.querySelector('img').src = e.target.result;
                         };
                         reader.readAsDataURL(file);
-                        
-                        // Store in orderData
                         orderData.mtnScreenshot = file;
-                        
-                        // Clear any error if exists
-                        document.getElementById('mtn-transaction-error').classList.remove('show');
+                        document.getElementById('mtn-transaction-error')?.classList.remove('show');
                     }
                 });
             }
             
-            // Orange screenshot handler
             const orangeScreenshot = document.getElementById('orange-screenshot');
             if (orangeScreenshot) {
+                orangeScreenshot.removeAttribute('capture');
+                orangeScreenshot.setAttribute('accept', 'image/*');
                 orangeScreenshot.addEventListener('change', function(e) {
                     const file = e.target.files[0];
                     if (file) {
                         document.getElementById('orange-screenshot-name').textContent = file.name;
-                        
-                        // Show preview
                         const reader = new FileReader();
                         reader.onload = function(e) {
                             const preview = document.getElementById('orange-screenshot-preview');
@@ -3755,46 +3684,29 @@
                             preview.querySelector('img').src = e.target.result;
                         };
                         reader.readAsDataURL(file);
-                        
-                        // Store in orderData
                         orderData.orangeScreenshot = file;
-                        
-                        // Clear any error if exists
-                        document.getElementById('orange-transaction-error').classList.remove('show');
+                        document.getElementById('orange-transaction-error')?.classList.remove('show');
                     }
                 });
             }
         }
 
-        // Load cart items
         function loadCartItems() {
             const cart = JSON.parse(localStorage.getItem('ebj_cart')) || [];
             const orderItems = document.getElementById('order-items');
-            
-            if (cart.length === 0) {
-                window.location.href = 'cart.html';
-                return;
-            }
-            
+            if (cart.length === 0) { window.location.href = 'cart.html'; return; }
             orderData.items = cart;
             calculateTotals();
-            
             orderItems.innerHTML = cart.map((item, index) => {
                 const itemTotal = item.price * (item.quantity || 1);
                 return `
                     <div class="order-item" data-index="${index}">
                         <div class="order-item-image">
-                            <img src="${item.image || 'https://images.unsplash.com/photo-1588176642088-53fc5c7c3a6a?q=80&w=500&auto=format&fit=crop'}" alt="${item.name}">
+                            <img src="${item.image || 'https://images.unsplash.com/photo-1588176642088-53fc5c7c3a6a?q=80&w=500'}" alt="${item.name}">
                         </div>
                         <div class="order-item-details">
                             <div class="order-item-name">${item.name}</div>
-                            <div class="order-item-meta">
-                                ${item.color ? `Color: ${item.color} • ` : ''}
-                                ${item.size ? `Size: ${item.size} • ` : ''}
-                                Qty: ${item.quantity || 1}
-                                ${item.hasPrescription ? ' • 📄 Prescription' : ''}
-                                ${item.lensType ? ` • ${item.lensType}` : ''}
-                            </div>
+                            <div class="order-item-meta">Qty: ${item.quantity || 1}</div>
                             <div class="order-item-price">${itemTotal.toLocaleString()} FCFA</div>
                             <div class="order-item-actions">
                                 <button class="edit-item-btn" onclick="editItem(${index})">Edit</button>
@@ -3804,17 +3716,13 @@
                     </div>
                 `;
             }).join('');
-            
             document.getElementById('item-count').textContent = cart.length;
         }
 
-        // Edit item
         window.editItem = function(index) {
-            localStorage.setItem('ebj_edit_index', index);
-            window.location.href = `product.html?id=${orderData.items[index].id}`;
+            window.location.href = `product-details.html?id=${orderData.items[index].id}`;
         };
 
-        // Remove item
         window.removeItem = function(index) {
             if (confirm('Remove this item from your order?')) {
                 orderData.items.splice(index, 1);
@@ -3824,37 +3732,26 @@
             }
         };
 
-        // Calculate totals
         function calculateTotals() {
             const subtotal = orderData.items.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
             orderData.subtotal = subtotal;
             orderData.total = subtotal + orderData.delivery - orderData.discount;
-            
             document.getElementById('items-subtotal').textContent = subtotal.toLocaleString() + ' FCFA';
-            
             if (orderData.discount > 0) {
                 document.getElementById('discount-row').style.display = 'flex';
                 document.getElementById('discount-amount').textContent = '-' + orderData.discount.toLocaleString() + ' FCFA';
             }
-            
             document.getElementById('order-total').textContent = orderData.total.toLocaleString() + ' FCFA';
-            
-            // Update amount displays
             const totalFormatted = orderData.total.toLocaleString() + ' FCFA';
-            const totalXAF = 'XAF ' + orderData.total.toLocaleString();
-            
             if (document.getElementById('mtn-amount')) document.getElementById('mtn-amount').textContent = totalFormatted;
             if (document.getElementById('orange-amount')) document.getElementById('orange-amount').textContent = totalFormatted;
             if (document.getElementById('cash-amount')) document.getElementById('cash-amount').textContent = totalFormatted;
-            if (document.getElementById('confirmation-amount')) document.getElementById('confirmation-amount').textContent = totalXAF;
         }
 
-        // Update order number
         function updateOrderNumber() {
             document.getElementById('confirmation-order-number').textContent = '#' + orderNumber;
         }
 
-        // Set minimum delivery date
         function setMinDeliveryDate() {
             const dateInput = document.getElementById('delivery-date');
             if (dateInput) {
@@ -3864,119 +3761,53 @@
             }
         }
 
-        // Check prescription items
-        function checkPrescriptionItems() {
-            const hasPrescription = orderData.items.some(item => item.hasPrescription);
-            const prescriptionGroup = document.getElementById('prescription-upload-group');
-            if (prescriptionGroup) {
-                if (hasPrescription) {
-                    prescriptionGroup.style.display = 'block';
-                } else {
-                    prescriptionGroup.style.display = 'none';
-                }
-            }
-        }
-
-        // Prescription file upload
-        document.getElementById('prescription')?.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                document.getElementById('file-name').textContent = file.name;
-                orderData.prescription = file;
-            }
-        });
-
-        // Setup event listeners
         function setupEventListeners() {
             const placeOrderBtn = document.getElementById('placeOrderBtn');
             if (placeOrderBtn) {
                 placeOrderBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    console.log('Place order clicked');
-                    
-                    // SECURITY: Check if user is logged in first
-                    if (typeof window.redirectIfNotLoggedIn === 'function' && !window.redirectIfNotLoggedIn()) {
-                        return;
-                    }
-                    
-                    // Simple validation
                     const name = document.getElementById('name').value;
                     const whatsapp = document.getElementById('whatsapp').value;
                     const city = document.getElementById('city').value;
                     const area = document.getElementById('area').value;
                     const terms = document.getElementById('terms').checked;
-                    const email = document.getElementById('email').value;
                     
-                    if (!name) {
-                        alert('Please enter your name');
-                        return;
-                    }
+                    if (!name) { alert('Please enter your name'); scrollToElement(document.getElementById('name')); return; }
+                    if (!whatsapp) { alert('Please enter your WhatsApp number'); scrollToElement(document.getElementById('whatsapp')); return; }
+                    if (!city) { alert('Please select your city'); scrollToElement(document.getElementById('city')); return; }
+                    if (!area) { alert('Please enter your area'); scrollToElement(document.getElementById('area')); return; }
+                    if (!terms) { alert('Please agree to the Terms & Conditions'); scrollToElement(document.getElementById('terms')); return; }
                     
-                    if (!whatsapp) {
-                        alert('Please enter your WhatsApp number');
-                        return;
-                    }
-                    
-                    if (!city) {
-                        alert('Please select your city');
-                        return;
-                    }
-                    
-                    if (!area) {
-                        alert('Please enter your area');
-                        return;
-                    }
-                    
-                    if (!terms) {
-                        alert('Please agree to the Terms & Conditions');
-                        return;
-                    }
-                    
-                    // SECURITY: Validate email matches logged-in user
-                    if (typeof window.validateUserEmail === 'function' && !window.validateUserEmail(email)) {
-                        return;
-                    }
-                    
-                    console.log('Validation passed!');
-                    
-                    // Save customer data
                     orderData.customer = {
                         name: name,
                         whatsapp: whatsapp,
                         city: city,
                         area: area,
                         address: document.getElementById('address').value,
-                        deliveryDate: document.getElementById('delivery-date').value,
                         notes: document.getElementById('order-notes').value,
-                        email: email || localStorage.getItem('ebj_userEmail') // Use logged-in email if not provided
+                        email: document.getElementById('email').value || localStorage.getItem('ebj_userEmail')
                     };
                     
-                    // Move to step 2
                     document.getElementById('step1').classList.remove('active');
                     document.getElementById('step1').classList.add('completed');
                     document.getElementById('step2').classList.add('active');
-                    
                     document.getElementById('step1-content').style.display = 'none';
                     document.getElementById('select-payment-section').classList.add('visible');
-                    
-                    // Start payment timer
+                    scrollToElement(document.getElementById('select-payment-section'));
                     startPaymentTimer();
                 });
             }
         }
 
-        // Start payment timer
         function startPaymentTimer() {
             const timerElement = document.getElementById('payment-timer');
             if (timerElement) {
                 timerElement.classList.add('visible');
-                
                 timerInterval = setInterval(() => {
                     timeLeft--;
                     const minutes = Math.floor(timeLeft / 60);
                     const seconds = timeLeft % 60;
                     document.getElementById('timer').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                    
                     if (timeLeft <= 0) {
                         clearInterval(timerInterval);
                         timerElement.classList.remove('visible');
@@ -3987,14 +3818,9 @@
             }
         }
 
-        // Select delivery option
         window.selectDeliveryOption = function(method) {
             deliveryMethod = method;
-            
-            document.querySelectorAll('.delivery-option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
+            document.querySelectorAll('.delivery-option').forEach(opt => opt.classList.remove('selected'));
             if (method === 'standard') {
                 document.getElementById('delivery-standard').checked = true;
                 document.querySelector('.delivery-option:first-child').classList.add('selected');
@@ -4006,34 +3832,20 @@
                 orderData.delivery = 3000;
                 document.getElementById('delivery-fee').textContent = '3,000 FCFA';
             }
-            
             calculateTotals();
-            
-            const days = method === 'standard' ? '3-5' : '1-2';
-            document.getElementById('confirmation-delivery').innerHTML = 
-                `<i class="fas fa-truck"></i> Estimated delivery: <strong>${days} business days</strong>`;
         };
 
-        // Apply promo code
         window.applyPromo = function() {
             const code = document.getElementById('promo-input').value.toUpperCase();
             const promoMessage = document.getElementById('promo-message');
-            
-            const validPromos = {
-                'JOAN10': 0.1,
-                'JOAN20': 0.2,
-                'WELCOME': 0.15
-            };
-            
+            const validPromos = { 'JOAN10': 0.1, 'JOAN20': 0.2, 'WELCOME': 0.15 };
             if (validPromos[code] && !promoApplied) {
                 promoApplied = true;
                 promoDiscount = orderData.subtotal * validPromos[code];
                 orderData.discount = promoDiscount;
                 calculateTotals();
-                
                 promoMessage.textContent = `Promo applied! ${validPromos[code] * 100}% discount`;
                 promoMessage.className = 'promo-message success';
-                
                 alert(`Promo code ${code} applied successfully!`);
             } else if (promoApplied) {
                 promoMessage.textContent = 'Promo code already applied';
@@ -4045,70 +3857,44 @@
             }
         };
 
-        // Select payment method
         window.selectPaymentMethod = function(method) {
             selectedPaymentMethod = method;
             orderData.paymentMethod = method;
-            
-            document.querySelectorAll('.payment-method-card').forEach(card => {
-                card.classList.remove('selected');
-            });
+            document.querySelectorAll('.payment-method-card').forEach(card => card.classList.remove('selected'));
             document.getElementById(method + '-card').classList.add('selected');
-            
             document.getElementById('select-payment-section').classList.remove('visible');
-            
             document.getElementById('mtn-payment').classList.remove('visible');
             document.getElementById('orange-payment').classList.remove('visible');
             document.getElementById('cash-payment').classList.remove('visible');
-            
             document.getElementById(method + '-payment').classList.add('visible');
-            
             document.getElementById('step2').classList.remove('active');
             document.getElementById('step2').classList.add('completed');
             document.getElementById('step3').classList.add('active');
+            scrollToElement(document.getElementById(method + '-payment'));
         };
 
-        // Copy to clipboard
         window.copyToClipboard = function(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Copied to clipboard!');
-            }).catch(() => {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                alert('Copied to clipboard!');
-            });
+            navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
         };
 
-        // Validate transaction ID - accepts EITHER transaction ID OR screenshot
         function validateTransactionId(method) {
             const transactionId = document.getElementById(`${method}-transaction-id`).value.trim();
             const screenshot = method === 'mtn' ? orderData.mtnScreenshot : orderData.orangeScreenshot;
-            
-            // Hide error initially
-            document.getElementById(`${method}-transaction-error`).classList.remove('show');
-            
-            // Check if EITHER transaction ID OR screenshot is provided
+            document.getElementById(`${method}-transaction-error`)?.classList.remove('show');
             if (!transactionId && !screenshot && method !== 'cash') {
-                document.getElementById(`${method}-transaction-error`).classList.add('show');
+                document.getElementById(`${method}-transaction-error`)?.classList.add('show');
                 return false;
             }
-            
-            // Store what's provided
             orderData.transactionId = transactionId;
-            
             return true;
         }
 
-        // Send WhatsApp confirmation
+        // FIXED: Complete WhatsApp message with ALL order details
         function sendWhatsAppConfirmation() {
             try {
                 let itemsList = '';
-                orderData.items.forEach(item => {
-                    itemsList += `• ${item.name} x${item.quantity || 1} - ${(item.price * (item.quantity || 1)).toLocaleString()} FCFA\n`;
+                orderData.items.forEach((item, idx) => {
+                    itemsList += `${idx + 1}. ${item.name} x${item.quantity || 1} = ${(item.price * (item.quantity || 1)).toLocaleString()} FCFA\n`;
                 });
                 
                 const paymentMethodText = {
@@ -4117,59 +3903,57 @@
                     'cash': 'Cash on Delivery'
                 }[orderData.paymentMethod] || orderData.paymentMethod;
                 
-                // Check what proof was provided
-                const proofProvided = orderData.transactionId ? 
-                    `Transaction ID: ${orderData.transactionId}` : 
-                    (orderData.mtnScreenshot || orderData.orangeScreenshot) ? 'Screenshot provided' : 'No proof';
+                const transactionId = document.getElementById(`${orderData.paymentMethod}-transaction-id`)?.value || 'N/A';
+                const hasScreenshot = orderData.mtnScreenshot || orderData.orangeScreenshot;
                 
-                const message = 
-                    "*NEW ORDER #" + orderNumber + "*\n" +
-                    "Name: " + orderData.customer.name + "\n" +
-                    "WhatsApp: " + orderData.customer.whatsapp + "\n" +
-                    "Location: " + orderData.customer.city + " - " + orderData.customer.area + "\n" +
-                    "\n*ORDER DETAILS*\n" + itemsList +
-                    "\n*TOTAL: " + orderData.total.toLocaleString() + " FCFA*\n" +
-                    "Payment: " + paymentMethodText + "\n" +
-                    "Proof: " + proofProvided;
+                const message = `🛍️ *NEW ORDER #${orderNumber}*\n\n` +
+                    `👤 *Customer Information*\n` +
+                    `Name: ${orderData.customer.name}\n` +
+                    `WhatsApp: ${orderData.customer.whatsapp}\n` +
+                    `Email: ${orderData.customer.email || 'N/A'}\n\n` +
+                    `📍 *Delivery Address*\n` +
+                    `City: ${orderData.customer.city}\n` +
+                    `Area: ${orderData.customer.area}\n` +
+                    `Address: ${orderData.customer.address || 'N/A'}\n\n` +
+                    `📦 *Order Items*\n${itemsList}\n` +
+                    `💰 *Payment Summary*\n` +
+                    `Subtotal: ${orderData.subtotal.toLocaleString()} FCFA\n` +
+                    `Delivery: ${orderData.delivery.toLocaleString()} FCFA\n` +
+                    `${orderData.discount > 0 ? `Discount: -${orderData.discount.toLocaleString()} FCFA\n` : ''}` +
+                    `━━━━━━━━━━━━━━━━━━\n` +
+                    `*TOTAL: ${orderData.total.toLocaleString()} FCFA*\n\n` +
+                    `💳 *Payment Method*: ${paymentMethodText}\n` +
+                    `📝 *Transaction ID*: ${transactionId}\n` +
+                    `${hasScreenshot ? '📸 *Screenshot*: Provided\n' : ''}` +
+                    `${orderData.customer.notes ? `📋 *Notes*: ${orderData.customer.notes}\n` : ''}` +
+                    `\n_Thank you for shopping with EyewearByJoan!_`;
                 
                 const encodedMessage = encodeURIComponent(message);
-                window.open("https://wa.me/237699324290?text=" + encodedMessage, '_blank');
+                let phoneNumber = orderData.customer.whatsapp.replace(/[^0-9]/g, '');
+                if (phoneNumber.startsWith('237')) phoneNumber = phoneNumber.substring(3);
+                if (!phoneNumber.startsWith('6')) phoneNumber = '6' + phoneNumber;
                 
-                document.getElementById('whatsapp-confirmation').innerHTML = `
-                    <i class="fab fa-whatsapp"></i>
-                    <span>✅ Order details sent to WhatsApp!</span>
-                `;
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+                window.open(whatsappUrl, '_blank');
+                
+                const whatsappDiv = document.getElementById('whatsapp-confirmation');
+                if (whatsappDiv) {
+                    whatsappDiv.innerHTML = `<i class="fab fa-whatsapp"></i><span>✅ WhatsApp opened! Please send the message.</span>`;
+                }
+                return true;
             } catch (error) {
                 console.error('WhatsApp error:', error);
+                return false;
             }
         }
 
-        // Save order to Firestore
         async function saveOrderToFirestore(method) {
             try {
-                if (!window.db || !window.collection || !window.addDoc) {
-                    console.error('Firestore functions not available');
-                    return false;
-                }
-                
-                const user = window.auth ? window.auth.currentUser : null;
-                
-                // SECURITY: Verify user is logged in
-                if (!user) {
-                    console.error('No authenticated user found');
-                    showNotification('Please login to complete order', 'error');
-                    return false;
-                }
-                
-                // Check what proof was provided
                 const transactionId = document.getElementById(`${method}-transaction-id`).value.trim();
                 const screenshot = method === 'mtn' ? orderData.mtnScreenshot : orderData.orangeScreenshot;
                 
-                // Create order object
                 const orderForFirestore = {
                     orderNumber: orderNumber,
-                    userId: user.uid, // Must match logged-in user
-                    userEmail: user.email, // Must match logged-in user's email
                     customerName: orderData.customer.name,
                     customerWhatsapp: orderData.customer.whatsapp,
                     customerCity: orderData.customer.city,
@@ -4180,101 +3964,86 @@
                     paymentMethodText: method === 'mtn' ? 'MTN MoMo' : method === 'orange' ? 'Orange Money' : 'Cash on Delivery',
                     transactionId: transactionId || '',
                     screenshotProvided: !!screenshot,
-                    screenshotName: screenshot ? screenshot.name : '',
-                    proofType: transactionId ? 'transaction_id' : (screenshot ? 'screenshot' : 'none'),
                     subtotal: orderData.subtotal,
                     deliveryFee: orderData.delivery,
                     discount: orderData.discount,
                     total: orderData.total,
                     deliveryMethod: deliveryMethod,
                     status: 'pending',
-                    phone: orderData.customer.whatsapp,
                     createdAt: new Date().toISOString()
                 };
 
-                // Save to Firestore
-                console.log('Saving order to Firestore for user:', user.email);
-                const docRef = await window.addDoc(window.collection(window.db, "orders"), orderForFirestore);
-                
-                console.log("Order saved with ID:", docRef.id);
-                localStorage.setItem('ebj_last_order_id', docRef.id);
-                
-                console.log('✅ Order successfully saved to Firestore!');
+                await window.addDoc(window.collection(window.db, "orders"), orderForFirestore);
                 return true;
-                
             } catch (error) {
-                console.error('❌ Error saving order:', error);
+                console.error('Error saving order:', error);
                 return false;
             }
         }
 
-        // Mark as paid
+        // FIXED: markAsPaid with stock reduction and WhatsApp
         window.markAsPaid = async function(method) {
-            // Skip validation for cash on delivery
             if (method !== 'cash' && !validateTransactionId(method)) {
                 alert('Please provide either Transaction ID OR upload a payment screenshot');
+                scrollToElement(document.getElementById(`${method}-transaction-id`));
                 return;
             }
             
             const payBtn = document.getElementById(`${method}-pay-btn`);
             payBtn.disabled = true;
-            payBtn.innerHTML = 'Processing...';
+            payBtn.innerHTML = '<span class="spinner"></span> Processing...';
             
             try {
                 if (timerInterval) clearInterval(timerInterval);
                 
+                // REDUCE STOCK
+                for (const item of orderData.items) {
+                    const productRef = window.doc(window.db, 'products', item.id);
+                    const productDoc = await window.getDoc(productRef);
+                    if (productDoc.exists()) {
+                        const currentStock = productDoc.data().stock || 0;
+                        const newStock = currentStock - (item.quantity || 1);
+                        if (newStock >= 0) {
+                            await window.updateDoc(productRef, { stock: newStock });
+                        }
+                    }
+                }
+                
                 // Send WhatsApp
                 sendWhatsAppConfirmation();
                 
-                // Try to save to Firestore
-                const saved = await saveOrderToFirestore(method);
+                // Save order
+                await saveOrderToFirestore(method);
                 
-                if (saved) {
-                    console.log('Order saved successfully');
-                } else {
-                    console.warn('Order placed but not saved to database');
-                }
-                
-                // Show confirmation
-                document.getElementById('mtn-payment').classList.remove('visible');
-                document.getElementById('orange-payment').classList.remove('visible');
-                document.getElementById('cash-payment').classList.remove('visible');
-                document.getElementById('order-confirmation').classList.add('visible');
-                
-                document.getElementById('step3').classList.remove('active');
-                document.getElementById('step3').classList.add('completed');
-                document.getElementById('step4').classList.add('active');
-                
+                // Clear cart
                 localStorage.removeItem('ebj_cart');
                 
-                // Show success message with proof type
-                const proofType = orderData.transactionId ? 'Transaction ID' : 'Screenshot';
-                alert(`✅ Order placed successfully! ${proofType} received.`);
+                // Show confirmation
+                document.getElementById('mtn-payment')?.classList.remove('visible');
+                document.getElementById('orange-payment')?.classList.remove('visible');
+                document.getElementById('cash-payment')?.classList.remove('visible');
+                document.getElementById('order-confirmation').classList.add('visible');
+                
+                document.getElementById('step3')?.classList.remove('active');
+                document.getElementById('step3')?.classList.add('completed');
+                document.getElementById('step4')?.classList.add('active');
+                
+                document.getElementById('confirmation-order-number').textContent = '#' + orderNumber;
+                document.getElementById('confirmation-amount').textContent = 'XAF ' + orderData.total.toLocaleString();
+                
+                const days = deliveryMethod === 'standard' ? '3-5 business days' : '1-2 business days';
+                document.getElementById('confirmation-delivery').innerHTML = `<i class="fas fa-truck"></i> Estimated delivery: <strong>${days}</strong>`;
+                
+                scrollToElement(document.getElementById('order-confirmation'));
+                alert(`✅ Order #${orderNumber} placed successfully! WhatsApp opened with your order details.`);
                 
             } catch (error) {
-                console.error(error);
-                alert('❌ Order placed but there was an error. Please contact support.');
+                console.error('Order error:', error);
+                alert('❌ Error processing order: ' + error.message);
                 payBtn.disabled = false;
                 payBtn.innerHTML = 'I have paid';
             }
         };
-
-        // Show notification
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            const colors = {
-                success: { border: '#4CAF50', icon: 'fa-check-circle' },
-                error: { border: '#f44336', icon: 'fa-exclamation-circle' },
-                warning: { border: '#ff9800', icon: 'fa-exclamation-triangle' }
-            };
-            const color = colors[type] || colors.success;
-            
-            notification.innerHTML = `<i class="fas ${color.icon}" style="color:${color.border};"></i> <span>${message}</span>`;
-            notification.className = `notification ${type} show`;
-            notification.style.borderLeftColor = color.border;
-            
-            setTimeout(() => notification.classList.remove('show'), 3000);
-        }
 
         // ============================================
         // WISHLIST FUNCTIONS
@@ -4288,113 +4057,24 @@
 
         function updateWishlistCount() {
             const count = wishlist.length;
-            document.querySelectorAll('.wishlist-count').forEach(el => {
-                el.textContent = count;
-            });
+            document.querySelectorAll('.wishlist-count').forEach(el => { if (el) el.textContent = count; });
         }
 
-        function toggleWishlist(btn, productId, productName) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            let wishlist = JSON.parse(localStorage.getItem('ebj_wishlist')) || [];
-            
-            if (wishlist.includes(productId)) {
-                wishlist = wishlist.filter(id => id !== productId);
-                showNotification(`${productName} removed from wishlist`);
-                
-                const icon = btn.querySelector('i');
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                btn.classList.remove('active');
-            } else {
-                wishlist.push(productId);
-                showNotification(`${productName} added to wishlist!`);
-                
-                const icon = btn.querySelector('i');
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                btn.classList.add('active');
-            }
-            
-            localStorage.setItem('ebj_wishlist', JSON.stringify(wishlist));
-            updateWishlistCount();
-        }
-
-        function updateWishlistIcons() {
-            const wishlist = JSON.parse(localStorage.getItem('ebj_wishlist')) || [];
-            document.querySelectorAll('.wishlist-icon').forEach(btn => {
-                const productId = btn.dataset.productId;
-                const heartIcon = btn.querySelector('i');
-                
-                if (productId && wishlist.includes(productId)) {
-                    heartIcon.classList.remove('far');
-                    heartIcon.classList.add('fas');
-                    btn.classList.add('active');
-                } else {
-                    heartIcon.classList.remove('fas');
-                    heartIcon.classList.add('far');
-                    btn.classList.remove('active');
-                }
-            });
-        }
-
-        // Modal functionality
-        const modal = document.getElementById('authModal');
-        const accDesktop = document.querySelector('.user-account');
-        const accMobile = document.querySelector('.user-icon');
-        const closeModal = document.querySelector('.close-modal');
-        
-        function openModal(e) { 
-            e?.preventDefault(); 
-            if(modal) modal.style.display = 'flex'; 
-        }
-        
-        if (accDesktop) accDesktop.addEventListener('click', openModal);
-        if (accMobile) accMobile.addEventListener('click', openModal);
-        
-        if (closeModal) {
-            closeModal.addEventListener('click', () => {
-                if (modal) modal.style.display = 'none';
-            });
-        }
-        
-        window.addEventListener('click', e => { 
-            if (e.target === modal) modal.style.display = 'none'; 
-        });
-
-        // Initialize on load
-        window.addEventListener('load', function() {
-            console.log('Loading checkout...');
-            loadCartItems();
-            updateOrderNumber();
-            setMinDeliveryDate();
-            checkPrescriptionItems();
-            updateCartCount();
-        });
-
-        // Update cart count
         function updateCartCount() {
             const cart = JSON.parse(localStorage.getItem('ebj_cart')) || [];
             const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-            document.querySelectorAll('.cart-count').forEach(el => {
-                el.textContent = totalItems;
-            });
+            document.querySelectorAll('.cart-count').forEach(el => { if (el) el.textContent = totalItems; });
         }
 
-        // Handle page unload
-        window.addEventListener('beforeunload', function(e) {
-            if (document.getElementById('select-payment-section')?.classList.contains('visible') || 
-                document.getElementById('mtn-payment')?.classList.contains('visible') ||
-                document.getElementById('orange-payment')?.classList.contains('visible') ||
-                document.getElementById('cash-payment')?.classList.contains('visible')) {
-                e.preventDefault();
-                e.returnValue = 'You have a pending order. Are you sure you want to leave?';
-            }
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        window.addEventListener('load', function() {
+            initCheckout();
         });
 
-        // Make showNotification available globally
         window.showNotification = showNotification;
+        window.scrollToElement = scrollToElement;
     </script>
 </body>
 </html>
