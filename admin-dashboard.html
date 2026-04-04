@@ -2516,6 +2516,53 @@
     cursor: pointer;
     color: #666;
 }
+/* Stock Alert Styles */
+.stock-alert {
+    background: #fff3cd;
+    border-left: 4px solid #ff9800;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stock-alert.critical {
+    background: #f8d7da;
+    border-left-color: #dc3545;
+}
+
+.stock-alert.warning {
+    background: #fff3cd;
+    border-left-color: #ff9800;
+}
+
+.stock-alert .alert-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stock-alert .alert-content i {
+    font-size: 1.2rem;
+}
+
+.stock-alert.critical .alert-content i {
+    color: #dc3545;
+}
+
+.stock-alert.warning .alert-content i {
+    color: #ff9800;
+}
+
+.stock-alert button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #666;
+}
     </style>
 </head>
 
@@ -6796,6 +6843,364 @@ window.viewOrderDetails = async function(orderId) {
             await signOut(auth);
             window.location.href = 'login.html';
         };
+                // ============================================
+        // STOCK MANAGEMENT FUNCTIONS
+        // ============================================
+        
+        // Function to update stock for a product
+        window.updateProductStock = async function(productId, newStock) {
+            try {
+                const productRef = doc(db, 'products', productId);
+                await updateDoc(productRef, {
+                    stock: parseInt(newStock),
+                    lastStockUpdate: Timestamp.now(),
+                    updatedBy: currentAdmin?.email || 'admin'
+                });
+                
+                // Update local products array
+                const productIndex = products.findIndex(p => p.id === productId);
+                if (productIndex !== -1) {
+                    products[productIndex].stock = parseInt(newStock);
+                }
+                
+                showNotification(`Stock updated to ${newStock}`, 'success');
+                return true;
+            } catch (error) {
+                console.error('Error updating stock:', error);
+                showNotification('Failed to update stock: ' + error.message, 'error');
+                return false;
+            }
+        };
+        
+        // Function to show stock edit modal
+        window.editProductStock = function(productId, productName, currentStock) {
+            const newStock = prompt(`Edit stock for "${productName}"\nCurrent stock: ${currentStock}\n\nEnter new stock quantity:`, currentStock);
+            
+            if (newStock !== null && !isNaN(parseInt(newStock))) {
+                updateProductStock(productId, parseInt(newStock));
+            } else if (newStock !== null) {
+                showNotification('Please enter a valid number', 'warning');
+            }
+        };
+        
+        // Function to show stock alert banner on dashboard
+        function showStockAlerts() {
+            const lowStockProducts = products.filter(p => (p.stock || 10) <= 5 && (p.stock || 10) > 0);
+            const outOfStockProducts = products.filter(p => (p.stock || 10) === 0);
+            
+            const alertContainer = document.getElementById('stockAlertsContainer');
+            if (!alertContainer) return;
+            
+            let alertHtml = '';
+            
+            if (outOfStockProducts.length > 0) {
+                alertHtml += `
+                    <div class="stock-alert critical">
+                        <div class="alert-content">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span><strong>OUT OF STOCK:</strong> ${outOfStockProducts.map(p => p.name).join(', ')}</span>
+                        </div>
+                        <button onclick="document.getElementById('products-section').style.display='block'; showSection('products', null)">Fix Now</button>
+                    </div>
+                `;
+            }
+            
+            if (lowStockProducts.length > 0) {
+                alertHtml += `
+                    <div class="stock-alert warning">
+                        <div class="alert-content">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span><strong>LOW STOCK (≤5):</strong> ${lowStockProducts.map(p => `${p.name} (${p.stock} left)`).join(', ')}</span>
+                        </div>
+                        <button onclick="document.getElementById('products-section').style.display='block'; showSection('products', null)">Restock</button>
+                    </div>
+                `;
+            }
+            
+            alertContainer.innerHTML = alertHtml;
+        }
+        
+        // Function to bulk update stock from CSV
+        window.bulkUpdateStock = function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.csv';
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = async (event) => {
+                    const content = event.target.result;
+                    const lines = content.split('\n');
+                    const headers = lines[0].split(',');
+                    
+                    let updated = 0;
+                    let errors = 0;
+                    
+                    for (let i = 1; i < lines.length; i++) {
+                        if (!lines[i].trim()) continue;
+                        
+                        const values = lines[i].split(',');
+                        const productId = values[0]?.trim();
+                        const newStock = parseInt(values[1]?.trim());
+                        
+                        if (productId && !isNaN(newStock)) {
+                            const success = await updateProductStock(productId, newStock);
+                            if (success) updated++;
+                            else errors++;
+                        }
+                    }
+                    
+                    showNotification(`Bulk update complete: ${updated} updated, ${errors} errors`, 'info');
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        };
+        
+        // Add stock column to products table
+        function addStockColumnToProducts() {
+            // This modifies the existing products table to make stock editable
+            const productsBody = document.getElementById('productsBody');
+            if (!productsBody) return;
+            
+            const rows = productsBody.querySelectorAll('tr');
+            rows.forEach(row => {
+                const stockCell = row.cells[5]; // Stock is 6th column (index 5)
+                if (stockCell) {
+                    const productId = row.cells[1]?.textContent;
+                    const productName = row.cells[2]?.textContent;
+                    const currentStock = parseInt(stockCell.textContent);
+                    
+                    if (productId && !isNaN(currentStock)) {
+                        stockCell.innerHTML = `
+                            <span style="cursor: pointer; color: var(--primary); font-weight: 600;" 
+                                  onclick="editProductStock('${productId}', '${productName}', ${currentStock})"
+                                  title="Click to edit stock">
+                                ${currentStock}
+                                <i class="fas fa-edit" style="font-size: 0.7rem; margin-left: 5px;"></i>
+                            </span>
+                            ${currentStock <= 5 && currentStock > 0 ? 
+                                '<span style="color: #ff9800; margin-left: 5px;" title="Low Stock!">⚠️</span>' : ''}
+                            ${currentStock === 0 ? 
+                                '<span style="color: #f44336; margin-left: 5px;" title="Out of Stock!">❌</span>' : ''}
+                        `;
+                    }
+                }
+            });
+        }
+        
+        // Function to check stock on all orders and flag issues
+        async function checkOrdersForStockIssues() {
+            console.log('Checking orders for stock issues...');
+            let problematicOrders = [];
+            
+            for (const order of orders) {
+                for (const item of (order.items || [])) {
+                    const productId = item.id;
+                    const requestedQty = item.quantity || 1;
+                    
+                    try {
+                        const productDoc = await getDoc(doc(db, 'products', productId));
+                        if (productDoc.exists()) {
+                            const currentStock = productDoc.data().stock || 0;
+                            if (currentStock < requestedQty) {
+                                problematicOrders.push({
+                                    orderId: order.id,
+                                    orderNumber: order.orderNumber,
+                                    productName: item.name,
+                                    requested: requestedQty,
+                                    available: currentStock
+                                });
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error checking order stock:', error);
+                    }
+                }
+            }
+            
+            if (problematicOrders.length > 0) {
+                console.warn('Orders with stock issues:', problematicOrders);
+                // You can add a notification here
+                showNotification(`⚠️ ${problematicOrders.length} order(s) have stock issues!`, 'warning');
+            }
+            
+            return problematicOrders;
+        }
+        
+        // Add stock history tracking
+        async function logStockChange(productId, oldStock, newStock, reason = 'manual_update') {
+            try {
+                const stockLog = {
+                    productId: productId,
+                    oldStock: oldStock,
+                    newStock: newStock,
+                    change: newStock - oldStock,
+                    reason: reason,
+                    changedBy: currentAdmin?.email || 'admin',
+                    changedAt: Timestamp.now()
+                };
+                
+                await addDoc(collection(db, 'stock_logs'), stockLog);
+                console.log('Stock change logged:', stockLog);
+            } catch (error) {
+                console.error('Error logging stock change:', error);
+            }
+        }
+        
+        // Override updateProductStock to include logging
+        const originalUpdateProductStock = window.updateProductStock;
+        window.updateProductStock = async function(productId, newStock) {
+            try {
+                const productRef = doc(db, 'products', productId);
+                const productDoc = await getDoc(productRef);
+                const oldStock = productDoc.exists() ? (productDoc.data().stock || 0) : 0;
+                
+                await updateDoc(productRef, {
+                    stock: parseInt(newStock),
+                    lastStockUpdate: Timestamp.now(),
+                    updatedBy: currentAdmin?.email || 'admin'
+                });
+                
+                // Log the change
+                await logStockChange(productId, oldStock, parseInt(newStock), 'manual_update');
+                
+                // Update local products array
+                const productIndex = products.findIndex(p => p.id === productId);
+                if (productIndex !== -1) {
+                    products[productIndex].stock = parseInt(newStock);
+                }
+                
+                showNotification(`Stock updated from ${oldStock} to ${newStock}`, 'success');
+                
+                // Refresh alerts
+                showStockAlerts();
+                addStockColumnToProducts();
+                
+                return true;
+            } catch (error) {
+                console.error('Error updating stock:', error);
+                showNotification('Failed to update stock: ' + error.message, 'error');
+                return false;
+            }
+        };
+        
+        // Add low stock filter to products table
+        window.filterLowStockProducts = function() {
+            const rows = document.querySelectorAll('#productsBody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const stockCell = row.cells[5];
+                if (stockCell) {
+                    const stock = parseInt(stockCell.textContent);
+                    if (stock <= 5) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+            
+            showNotification(`Showing ${visibleCount} low stock products`, 'info');
+        };
+        
+        window.showAllProducts = function() {
+            const rows = document.querySelectorAll('#productsBody tr');
+            rows.forEach(row => {
+                row.style.display = '';
+            });
+            showNotification('Showing all products', 'info');
+        };
+        
+        // Add stock alert button to products section header
+        function addStockAlertButton() {
+            const productsHeader = document.querySelector('#products-section .section-header');
+            if (productsHeader && !document.getElementById('lowStockFilterBtn')) {
+                const btnGroup = document.createElement('div');
+                btnGroup.style.display = 'flex';
+                btnGroup.style.gap = '10px';
+                
+                const lowStockBtn = document.createElement('button');
+                lowStockBtn.id = 'lowStockFilterBtn';
+                lowStockBtn.className = 'btn-warning';
+                lowStockBtn.style.background = '#ff9800';
+                lowStockBtn.style.color = 'white';
+                lowStockBtn.style.padding = '8px 16px';
+                lowStockBtn.style.borderRadius = '50px';
+                lowStockBtn.style.border = 'none';
+                lowStockBtn.style.cursor = 'pointer';
+                lowStockBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Show Low Stock';
+                lowStockBtn.onclick = () => filterLowStockProducts();
+                
+                const showAllBtn = document.createElement('button');
+                showAllBtn.className = 'btn-outline';
+                showAllBtn.style.padding = '8px 16px';
+                showAllBtn.style.borderRadius = '50px';
+                showAllBtn.style.cursor = 'pointer';
+                showAllBtn.innerHTML = '<i class="fas fa-list"></i> Show All';
+                showAllBtn.onclick = () => showAllProducts();
+                
+                const bulkBtn = document.createElement('button');
+                bulkBtn.className = 'btn-info';
+                bulkBtn.style.background = '#2196F3';
+                bulkBtn.style.color = 'white';
+                bulkBtn.style.padding = '8px 16px';
+                bulkBtn.style.borderRadius = '50px';
+                bulkBtn.style.border = 'none';
+                bulkBtn.style.cursor = 'pointer';
+                bulkBtn.innerHTML = '<i class="fas fa-upload"></i> Bulk Update';
+                bulkBtn.onclick = () => bulkUpdateStock();
+                
+                btnGroup.appendChild(lowStockBtn);
+                btnGroup.appendChild(showAllBtn);
+                btnGroup.appendChild(bulkBtn);
+                productsHeader.appendChild(btnGroup);
+            }
+        }
+        
+        // Call this after products load
+        const originalLoadProductsTable = window.loadProductsTable;
+        window.loadProductsTable = function() {
+            originalLoadProductsTable();
+            setTimeout(() => {
+                addStockColumnToProducts();
+                addStockAlertButton();
+                showStockAlerts();
+            }, 100);
+        };
+        
+        // Add stock check to order processing
+        const originalUpdateOrderStatus = window.updateOrderStatus;
+        window.updateOrderStatus = async function(orderId, status) {
+            if (status === 'processing') {
+                // Check stock before processing
+                const orderDoc = await getDoc(doc(db, 'orders', orderId));
+                const order = orderDoc.data();
+                let hasStockIssue = false;
+                
+                for (const item of (order.items || [])) {
+                    const productDoc = await getDoc(doc(db, 'products', item.id));
+                    if (productDoc.exists()) {
+                        const currentStock = productDoc.data().stock || 0;
+                        if (currentStock < (item.quantity || 1)) {
+                            hasStockIssue = true;
+                            showNotification(`⚠️ ${item.name} has only ${currentStock} left!`, 'warning');
+                        }
+                    }
+                }
+                
+                if (hasStockIssue) {
+                    const proceed = confirm('Some items have low stock. Continue anyway?');
+                    if (!proceed) return;
+                }
+            }
+            
+            originalUpdateOrderStatus(orderId, status);
+        };
 
         // Expose functions to global scope
         window.loadProducts = loadProductsTable;
@@ -6810,6 +7215,7 @@ window.viewOrderDetails = async function(orderId) {
         window.loadBlogPosts = loadBlogPosts;
         window.removeBlogImage = removeBlogImage;
         window.updateRecipientCount = updateRecipientCount;
+
     </script>
 
     <!-- Load products.js for product data (optional) -->
