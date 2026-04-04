@@ -3249,14 +3249,14 @@
             </div>
             <div class="quality-grid">
                 <div class="quality-card">
-                    <img src="https://images.unsplash.com/photo-1574258495973-f010dfbb5371?q=80&w=500&auto=format&fit=crop" alt="Mixed Material">
+                    <img src="images/Sac de rangement pour lunettes en PU, motif litchi, nuances fermées automatiques, housse de - Copy.jpg" alt="Mixed Material">
                     <div class="quality-card-content">
                         <h4>Soft Protective Pouch</h4>
                         <p>A lightweight fabric pouch designed for everyday storage. Helps protect your glasses from scratches and dust when placed in your bag.</p>
                     </div>
                 </div>
                 <div class="quality-card">
-                    <img src="<img src="images/chummy (327).png" alt="Our Packaging">
+                    <img src="images/5 Pair Anti Slip Eyeglass Ear Hooks Silicone Glasses Grip Pads For Sports.jpg" alt="Our Packaging">
                     <div class="quality-card-content">
                        <h4>Comfort Grip Ear Holders</h4>
                 <p>
@@ -3266,7 +3266,7 @@
                     </div>
                 </div>
                 <div class="quality-card">
-                     <img src="images/chummy (327).png" alt="Anti-Reflective">
+                    <img src="images/Double Glasses Case Soft Eyeglass Cases With Cleaning One Size Grass Green.jpg" alt="Anti-Reflective">
                     <div class="quality-card-content">
                        <h4>Premium Lens Cleaning Wipe</h4>
                 <p>
@@ -3276,7 +3276,7 @@
                     </div>
                 </div>
                 <div class="quality-card">
-                    <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=500&auto=format&fit=crop" alt="Photochromic">
+                    <img src="images/Tambourine Chain Glasses.jpg" alt="Photochromic">
                     <div class="quality-card-content">
                         <h4>Carefully Prepared Packaging</h4>
                 <p>
@@ -4321,6 +4321,26 @@
             attachEventListeners();
             setupPrescriptionUpload();
             setupStickyBar();
+                        // ========== STOCK CHECKING - ADD THIS SECTION ==========
+            // Create stock display element after price
+            const priceElement = document.querySelector('.price');
+            if (priceElement && !document.getElementById('stock-status-display')) {
+                const stockElement = document.createElement('div');
+                stockElement.id = 'stock-status-display';
+                stockElement.style.margin = '10px 0';
+                stockElement.style.padding = '10px';
+                stockElement.style.borderRadius = '8px';
+                stockElement.style.fontSize = '0.95rem';
+                stockElement.style.fontWeight = '500';
+                priceElement.parentNode.insertBefore(stockElement, priceElement.nextSibling);
+            }
+            
+            // Check stock after a short delay
+            setTimeout(() => {
+                checkAndDisplayStock();
+                overrideAddToCart();
+            }, 100);
+            // ======================================================
         }
 
         function setupPrescriptionUpload() {
@@ -4540,6 +4560,274 @@
         loadWishlist();
         updateCartCount();
         loadProduct();
+        // ============================================
+// STOCK CHECKING FUNCTIONALITY
+// ============================================
+
+// Variable to store current stock
+let currentStock = 0;
+
+// Function to check and display stock status
+async function checkAndDisplayStock() {
+    if (!product || !product.id) return;
+    
+    try {
+        const productDoc = await db.collection('products').doc(product.id).get();
+        if (productDoc.exists) {
+            currentStock = productDoc.data().stock || 0;
+            displayStockStatus(currentStock);
+            return currentStock;
+        }
+    } catch (error) {
+        console.error('Error checking stock:', error);
+    }
+    return 0;
+}
+
+// Function to display stock status in the product info
+function displayStockStatus(stock) {
+    const productInfo = document.getElementById('product-info');
+    if (!productInfo) return;
+    
+    // Check if stock display already exists
+    let stockElement = document.getElementById('stock-status-display');
+    
+    if (!stockElement) {
+        // Create stock status element
+        stockElement = document.createElement('div');
+        stockElement.id = 'stock-status-display';
+        stockElement.style.margin = '10px 0';
+        stockElement.style.padding = '10px';
+        stockElement.style.borderRadius = '8px';
+        stockElement.style.fontSize = '0.95rem';
+        stockElement.style.fontWeight = '500';
+        
+        // Insert after price
+        const priceElement = document.querySelector('.price');
+        if (priceElement && priceElement.parentNode) {
+            priceElement.parentNode.insertBefore(stockElement, priceElement.nextSibling);
+        }
+    }
+    
+    // Update stock display based on available stock
+    if (stock <= 0) {
+        stockElement.innerHTML = `
+            <i class="fas fa-times-circle" style="color: #f44336; margin-right: 8px;"></i>
+            <span style="color: #f44336; font-weight: 600;">OUT OF STOCK</span>
+            <span style="color: #666; font-size: 0.85rem; display: block; margin-top: 5px;">
+                This product is currently unavailable. Check back soon!
+            </span>
+        `;
+        stockElement.style.backgroundColor = '#ffebee';
+        stockElement.style.border = '1px solid #f44336';
+        
+        // Disable add to cart buttons
+        const addToCartBtn = document.getElementById('addToCartBtn');
+        const stickyAddToCart = document.getElementById('stickyAddToCart');
+        const prescriptionAddToCart = document.getElementById('prescriptionAddToCart');
+        
+        if (addToCartBtn) {
+            addToCartBtn.disabled = true;
+            addToCartBtn.style.opacity = '0.5';
+            addToCartBtn.style.cursor = 'not-allowed';
+            addToCartBtn.title = 'Out of stock';
+        }
+        if (stickyAddToCart) {
+            stickyAddToCart.disabled = true;
+            stickyAddToCart.style.opacity = '0.5';
+            stickyAddToCart.style.cursor = 'not-allowed';
+        }
+        if (prescriptionAddToCart) {
+            prescriptionAddToCart.disabled = true;
+            prescriptionAddToCart.style.opacity = '0.5';
+            prescriptionAddToCart.style.cursor = 'not-allowed';
+        }
+        
+    } else if (stock <= 5) {
+        stockElement.innerHTML = `
+            <i class="fas fa-exclamation-triangle" style="color: #ff9800; margin-right: 8px;"></i>
+            <span style="color: #ff9800; font-weight: 600;">⚠️ Only ${stock} left in stock!</span>
+            <span style="color: #666; font-size: 0.85rem; display: block; margin-top: 5px;">
+                Hurry! Only ${stock} item${stock === 1 ? '' : 's'} remaining.
+            </span>
+        `;
+        stockElement.style.backgroundColor = '#fff3e0';
+        stockElement.style.border = '1px solid #ff9800';
+        
+        // Enable buttons (they have stock)
+        enableAddToCartButtons(true);
+        
+    } else {
+        stockElement.innerHTML = `
+            <i class="fas fa-check-circle" style="color: #4CAF50; margin-right: 8px;"></i>
+            <span style="color: #4CAF50; font-weight: 600;">✓ In Stock (${stock} available)</span>
+        `;
+        stockElement.style.backgroundColor = '#e8f5e9';
+        stockElement.style.border = '1px solid #4CAF50';
+        
+        // Enable buttons
+        enableAddToCartButtons(true);
+    }
+}
+
+// Function to enable/disable add to cart buttons
+function enableAddToCartButtons(enable) {
+    const addToCartBtn = document.getElementById('addToCartBtn');
+    const stickyAddToCart = document.getElementById('stickyAddToCart');
+    const prescriptionAddToCart = document.getElementById('prescriptionAddToCart');
+    
+    if (addToCartBtn) {
+        addToCartBtn.disabled = !enable;
+        addToCartBtn.style.opacity = enable ? '1' : '0.5';
+        addToCartBtn.style.cursor = enable ? 'pointer' : 'not-allowed';
+    }
+    if (stickyAddToCart) {
+        stickyAddToCart.disabled = !enable;
+        stickyAddToCart.style.opacity = enable ? '1' : '0.5';
+        stickyAddToCart.style.cursor = enable ? 'pointer' : 'not-allowed';
+    }
+    if (prescriptionAddToCart) {
+        prescriptionAddToCart.disabled = !enable;
+        prescriptionAddToCart.style.opacity = enable ? '1' : '0.5';
+        prescriptionAddToCart.style.cursor = enable ? 'pointer' : 'not-allowed';
+    }
+}
+
+// Modified addToCart function with stock validation
+const originalAddToCart = addToCart;
+
+window.addToCart = async function(fromPrescription = false) {
+    // Check if product is in stock
+    if (currentStock <= 0) {
+        showNotification('Sorry, this product is out of stock!', 'error');
+        return;
+    }
+    
+    // Check if user is trying to add more than available
+    const requestedQty = 1; // You can change this if you add quantity selector
+    
+    if (requestedQty > currentStock) {
+        showNotification(`Only ${currentStock} left in stock!`, 'warning');
+        return;
+    }
+    
+    // Check prescription requirement
+    if (isPrescriptionMode && !uploadedFile) {
+        alert('Please upload your prescription first.');
+        return;
+    }
+    
+    // Proceed with adding to cart
+    const cart = JSON.parse(localStorage.getItem('ebj_cart')) || [];
+    const cartItem = {
+        id: product.id,
+        name: product.name,
+        code: product.id.split('-')[1]?.toUpperCase() || product.id.substring(0,6).toUpperCase(),
+        price: product.price,
+        quantity: requestedQty,
+        image: currentColorImages[0] || '',
+        type: product.type || 'accessory',
+        color: currentColorName
+    };
+    
+    if (isPrescriptionMode && uploadedFile) {
+        cartItem.hasPrescription = true;
+        cartItem.prescriptionFile = uploadedFile.name;
+    }
+    
+    const existing = cart.findIndex(i => i.id === cartItem.id && i.color === cartItem.color);
+    if (existing > -1) {
+        const newQty = cart[existing].quantity + requestedQty;
+        if (newQty > currentStock) {
+            showNotification(`Cannot add more. Only ${currentStock} available in stock.`, 'warning');
+            return;
+        }
+        cart[existing].quantity = newQty;
+    } else {
+        cart.push(cartItem);
+    }
+    
+    localStorage.setItem('ebj_cart', JSON.stringify(cart));
+    updateCartCount();
+    showNotification(`${product.name} added to cart!`, 'success');
+    
+    // Refresh stock display (in case it changed)
+    checkAndDisplayStock();
+};
+
+// Override the original function
+function overrideAddToCart() {
+    const addToCartBtn = document.getElementById('addToCartBtn');
+    const stickyAddToCart = document.getElementById('stickyAddToCart');
+    const prescriptionAddToCart = document.getElementById('prescriptionAddToCart');
+    
+    if (addToCartBtn) {
+        const newBtn = addToCartBtn.cloneNode(true);
+        addToCartBtn.parentNode.replaceChild(newBtn, addToCartBtn);
+        newBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.addToCart(false);
+        });
+        document.getElementById('addToCartBtn')?.removeAttribute('id');
+        newBtn.id = 'addToCartBtn';
+    }
+    
+    if (stickyAddToCart) {
+        const newSticky = stickyAddToCart.cloneNode(true);
+        stickyAddToCart.parentNode.replaceChild(newSticky, stickyAddToCart);
+        newSticky.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.addToCart(false);
+        });
+        document.getElementById('stickyAddToCart')?.removeAttribute('id');
+        newSticky.id = 'stickyAddToCart';
+    }
+    
+    if (prescriptionAddToCart) {
+        const newPresc = prescriptionAddToCart.cloneNode(true);
+        prescriptionAddToCart.parentNode.replaceChild(newPresc, prescriptionAddToCart);
+        newPresc.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.addToCart(true);
+        });
+        document.getElementById('prescriptionAddToCart')?.removeAttribute('id');
+        newPresc.id = 'prescriptionAddToCart';
+    }
+}
+
+// Also update the renderProductPage function to include stock display
+const originalRenderProductPage = renderProductPage;
+
+window.renderProductPage = function() {
+    originalRenderProductPage();
+    // After rendering, check stock
+    setTimeout(() => {
+        checkAndDisplayStock();
+        overrideAddToCart();
+    }, 500);
+};
+
+// Make sure loadProduct also checks stock after loading
+const originalLoadProduct = loadProduct;
+
+window.loadProduct = async function() {
+    await originalLoadProduct();
+    if (product) {
+        await checkAndDisplayStock();
+        overrideAddToCart();
+    }
+};
+
+// Add stock check when color changes (different colors might have different stock)
+const originalChangeColor = changeColor;
+
+window.changeColor = function(colorName) {
+    originalChangeColor(colorName);
+    // Re-check stock for this color (if different stock per color)
+    setTimeout(() => {
+        checkAndDisplayStock();
+    }, 100);
+};
     </script>
 </body>
 </html> 
